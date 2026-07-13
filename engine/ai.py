@@ -11,6 +11,7 @@ Design notes (from 2026 outbound research):
 from __future__ import annotations
 
 import json
+import re
 from typing import Literal
 
 import anthropic
@@ -19,6 +20,33 @@ from pydantic import BaseModel, Field
 from .config import Config, Product
 
 MODEL = "claude-opus-4-8"
+
+# Owner rule: outreach must read like a human typed it. Dashes used as
+# punctuation are the #1 "an AI wrote this" tell and are banned outright.
+HUMAN_STYLE = """STYLE RULES, NON-NEGOTIABLE:
+- Write like a real person typing an email or a forum comment on their phone.
+- NEVER use a dash as punctuation. No em dashes, no en dashes, no " - " between
+  clauses. Use a comma, a period, or start a new sentence instead.
+- Use contractions (I'm, you're, don't, it's).
+- Vary sentence length. Short sentences are good. The odd fragment is fine.
+- No marketing words: seamless, effortless, game-changer, unlock, supercharge,
+  revolutionize, leverage.
+- No bullet points, no numbered lists, no bold text. Just sentences.
+- No "I hope this finds you well", "Just circling back", "Quick question".
+- If a sentence would sound odd read aloud to a friend, rewrite it."""
+
+_DASH_PUNCT = re.compile(r"\s*[—–]\s*")   # em dash, en dash
+_SPACED_HYPHEN = re.compile(r"(?<=\w)\s+-\s+(?=\w)")  # "word - word"
+
+
+def humanize(text: str) -> str:
+    """Backstop scrubber: remove dash-as-punctuation even if the model slips.
+    Hyphens inside words (e-commerce, follow-up) are left alone."""
+    text = _DASH_PUNCT.sub(", ", text)
+    text = _SPACED_HYPHEN.sub(", ", text)
+    text = re.sub(r",\s*,", ",", text)
+    text = re.sub(r"[ \t]{2,}", " ", text)
+    return text.strip()
 
 
 # ── Structured output shapes ─────────────────────────────────────────────────
@@ -121,22 +149,26 @@ Return one rubric entry per post, using the post's index."""
         catalog = _product_context(product)
         if kind == "email":
             channel_rules = f"""Write a FIRST-TOUCH COLD EMAIL.
-- 50-125 words, plain text, one clear call to action.
+- 50 to 125 words, plain text, one clear call to action.
 - Problem-first opener that references their actual post (quote or closely
-  paraphrase it) — research shows specific hooks roughly double reply rates.
-- No hype words, no "I hope this finds you well", no fake familiarity.
+  paraphrase it). Specific hooks roughly double reply rates.
+- No fake familiarity.
 - Sign off simply as "Dan".
 - End the body with this exact footer on its own lines:
-{unsubscribe_footer}"""
+{unsubscribe_footer}
+
+{HUMAN_STYLE}"""
         else:
-            channel_rules = """Write an IN-THREAD REPLY (Reddit/Hacker News).
+            channel_rules = f"""Write an IN-THREAD REPLY (Reddit/Hacker News).
 - Lead with genuinely useful help: answer their actual question or give a
   concrete tip they can use even without the product.
-- Mention the product once, briefly and honestly, as "I built <name> for
-  exactly this" style disclosure — communities reward transparency and ban
+- Mention the product once, briefly and honestly, in the spirit of "I built
+  <name> for exactly this". Communities reward transparency and ban
   astroturfing.
-- Match forum tone: casual, no marketing language, no bullet-point pitch.
-- 60-150 words."""
+- Match forum tone: casual, like a comment typed between other things.
+- 60 to 150 words.
+
+{HUMAN_STYLE}"""
 
         prompt = f"""You write outreach for a solo founder named Dan.
 
@@ -163,7 +195,10 @@ HARD RULES:
             messages=[{"role": "user", "content": prompt}],
             output_format=OutreachDraft,
         )
-        return response.parsed_output
+        draft = response.parsed_output
+        draft.reply_text = humanize(draft.reply_text)
+        draft.subject = humanize(draft.subject)
+        return draft
 
     def draft_followup(self, product: Product, signal: dict, previous_body: str,
                        touch: int, unsubscribe_footer: str = "") -> OutreachDraft:
@@ -179,12 +214,14 @@ and has not replied. Previous email:
 ---
 
 Write follow-up #{touch - 1}. Rules:
-- Shorter than the previous email ({'2-3 sentences' if touch == 2 else '1-2 sentences, this is the last touch — close the loop politely'}).
+- Shorter than the previous email ({'2 or 3 sentences' if touch == 2 else '1 or 2 sentences, this is the last touch, close the loop politely'}).
 - Add one NEW angle or piece of value, never "just bumping this".
 - Plain text, sign off as "Dan".
 - End the body with this exact footer on its own lines:
 {unsubscribe_footer}
-- grounding_quote: reuse the strongest phrase from their original post."""
+- grounding_quote: reuse the strongest phrase from their original post.
+
+{HUMAN_STYLE}"""
 
         response = self.client.messages.parse(
             model=MODEL,
@@ -193,7 +230,10 @@ Write follow-up #{touch - 1}. Rules:
             messages=[{"role": "user", "content": prompt}],
             output_format=OutreachDraft,
         )
-        return response.parsed_output
+        draft = response.parsed_output
+        draft.reply_text = humanize(draft.reply_text)
+        draft.subject = humanize(draft.subject)
+        return draft
 
     # -- digest ---------------------------------------------------------------
 
@@ -210,7 +250,9 @@ Format (plain text, no markdown tables):
 3. "Hot leads to act on" — for each top lead: product, one-line summary of what
    they asked, score, and the direct link. Order hottest first.
 4. "Waiting on you" — count of drafts pending approval, if any.
-Keep it under 300 words. No fluff, no pep talk."""
+Keep it under 300 words. No fluff, no pep talk. Write in plain human
+sentences and never use a dash as punctuation (no em dashes, no " - ");
+use a comma or a new sentence instead."""
 
         response = self.client.messages.create(
             model=MODEL,
@@ -218,7 +260,8 @@ Keep it under 300 words. No fluff, no pep talk."""
             thinking={"type": "adaptive"},
             messages=[{"role": "user", "content": prompt}],
         )
-        return next((b.text for b in response.content if b.type == "text"), "")
+        text = next((b.text for b in response.content if b.type == "text"), "")
+        return humanize(text)
 
 
 def _product_context(product: Product) -> str:

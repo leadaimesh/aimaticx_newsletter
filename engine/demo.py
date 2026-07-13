@@ -98,12 +98,12 @@ def seed_demo(conn: sqlite3.Connection, cfg: Config, days: int = 35) -> None:
                             signal_id, kind,
                             "lead@example.com" if kind == "email" else None,
                             "Saw your post about document translation" if kind == "email" else None,
-                            "Hey — saw your post about translating that contract while keeping "
-                            "the layout. One tip that helps regardless of tool: export to DOCX "
-                            "first, translation engines handle it far better than raw PDF. "
-                            "I actually built Doc2Translate for exactly this — it keeps tables "
-                            "and formatting intact. Happy to run your first doc free if you "
-                            "want to sanity-check it.",
+                            "Hey, saw your post about translating that contract and keeping "
+                            "the layout. One tip that helps whatever tool you use: export to "
+                            "DOCX first. Translation engines handle it way better than raw "
+                            "PDF. I actually built Doc2Translate for exactly this, it keeps "
+                            "tables and formatting intact. Happy to run your first doc free "
+                            "if you want to sanity check it.",
                             "sent" if sent else "pending",
                             day.strftime("%Y-%m-%dT%H:%M:%SZ"),
                             day.strftime("%Y-%m-%dT%H:%M:%SZ") if sent else None,
