@@ -28,27 +28,38 @@ products:
       - Supports major file types (PDF, DOCX, PPTX, XLSX)
     pricing: "Pay-as-you-go per document; free preview"   # TODO(Dan): real pricing
     ideal_customer: >
-      Small businesses, immigration applicants, students, legal/HR teams and
-      freelancers who need documents translated quickly without losing
-      formatting — people who find agencies too slow/expensive and copy-paste
-      into Google Translate too messy.
-    # Phrases people use when they NEED this (drives Reddit/HN/Google discovery)
+      STARTING NICHE — businesses shipping to/within Europe: e-commerce
+      sellers, exporters and logistics teams who need customs paperwork,
+      invoices, product sheets, compliance docs and contracts translated into
+      EU languages fast, with formatting intact. Secondary: immigration
+      applicants, legal/HR teams and freelancers priced out of agencies.
+    # Phrases people use when they NEED this (drives Reddit/HN/Google discovery).
+    # EU-shipping phrases first — they define the launch niche.
     pain_phrases:
+      - "translate customs documents"
+      - "translate invoice to german"
+      - "translate product description for eu"
+      - "selling to europe language barrier"
+      - "translate shipping documents"
+      - "amazon europe listing translation"
       - "translate a pdf and keep formatting"
-      - "translate word document to spanish"
       - "document translation service too expensive"
-      - "how to translate a contract"
       - "translate pdf without losing layout"
       - "certified translation cheaper alternative"
     keywords:
       - document translation
       - translate pdf
-      - translate docx
+      - customs documents
+      - eu compliance documents
     subreddits:
-      - translator
-      - languagelearning
-      - immigration
+      - ecommerce
+      - FulfillmentByAmazon
+      - AmazonSeller
+      - shopify
+      - Entrepreneur
       - smallbusiness
+      - translator
+      - immigration
       - freelance
     negative_keywords:            # skip signals containing these
       - hiring

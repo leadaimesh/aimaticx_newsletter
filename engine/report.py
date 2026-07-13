@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
 from datetime import datetime, timedelta, timezone
 
@@ -144,6 +145,12 @@ def build_dashboard_data(conn: sqlite3.Connection, cfg: Config, demo: bool = Fal
             "email_configured": cfg.email_configured,
             "daily_email_cap": cfg.daily_email_cap,
         },
+        # Set automatically when run inside GitHub Actions — lets the
+        # dashboard deep-link to the phone-friendly Engine Action workflow.
+        "engine_action_url": (
+            f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/workflows/engine-action.yml"
+            if os.environ.get("GITHUB_REPOSITORY") else None
+        ),
     }
 
 
@@ -158,7 +165,11 @@ def write_dashboard(conn: sqlite3.Connection, cfg: Config, demo: bool = False) -
 def send_digest(conn: sqlite3.Connection, cfg: Config, ai: AI, data: dict) -> None:
     if not cfg.settings.get("digest", {}).get("enabled", True):
         return
-    # The engine runs several times a day; the digest goes out once.
+    # The engine runs every few hours; the digest goes out once per day, on
+    # the first run at/after the configured hour (overnight runs stay quiet).
+    send_after = cfg.settings.get("digest", {}).get("send_after_utc_hour", 13)
+    if datetime.now(timezone.utc).hour < send_after:
+        return
     already = conn.execute(
         """SELECT 1 FROM events
            WHERE kind IN ('digest_emailed','digest_written') AND at LIKE ?""",

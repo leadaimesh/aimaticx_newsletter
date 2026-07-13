@@ -2,8 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sales Engine — Command Center</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Sales Engine">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f9f9f7">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d0d0d">
 <style>
   :root {
     --surface-1: #fcfcfb;      /* chart surface */
@@ -164,6 +173,25 @@
   .empty { color: var(--muted); padding: 18px 0; text-align: center; }
   footer { color: var(--muted); font-size: 12px; margin-top: 26px; }
   .hidden { display: none !important; }
+  .action-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    font: 600 12px system-ui, sans-serif; color: #fff; background: var(--series-1);
+    border: none; border-radius: 7px; padding: 6px 12px; cursor: pointer;
+    text-decoration: none;
+  }
+  .action-btn:hover { text-decoration: none; opacity: 0.92; }
+
+  /* phone layout */
+  @media (max-width: 640px) {
+    body { padding: 14px 10px 48px; }
+    header h1 { font-size: 18px; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .tile .value { font-size: 24px; }
+    .tile svg { max-width: 100%; }
+    .filters { flex-wrap: wrap; }
+    .card { padding: 13px 13px; }
+    .draft .top { gap: 6px; }
+  }
 </style>
 </head>
 <body>
@@ -226,7 +254,8 @@
   </div>
 
   <div class="card" style="margin-bottom:14px">
-    <div class="head"><h2>Waiting on you — outreach drafts to approve</h2></div>
+    <div class="head"><h2>Waiting on you — outreach drafts to approve</h2>
+      <span id="engine-action-slot"></span></div>
     <div id="queue"></div>
   </div>
 
@@ -565,6 +594,13 @@
 
   // ── draft queue & leads table ──────────────────────────────────────────────
   function renderQueue() {
+    const slot = $("engine-action-slot"); slot.textContent = "";
+    if (DATA.engine_action_url) {
+      const btn = el("a", "action-btn", "⚡ Engine Action");
+      btn.href = DATA.engine_action_url; btn.target = "_blank"; btn.rel = "noopener noreferrer";
+      btn.title = "Mark drafts posted / dismissed / replied from your phone";
+      slot.appendChild(btn);
+    }
     const q = $("queue"); q.textContent = "";
     const all = DATA.pending_drafts || [];
     if (!all.length) {
@@ -605,8 +641,8 @@
       card.appendChild(copy);
       card.appendChild(el("div", "cli",
         d.kind === "email"
-          ? `python run_engine.py approve ${d.id} --email <their@address>   ·   dismiss ${d.id}`
-          : `copy → post it → python run_engine.py posted ${d.id}   ·   dismiss ${d.id}`));
+          ? `draft #${d.id} — Engine Action → approve-email (or terminal: run_engine.py approve ${d.id} --email …)`
+          : `draft #${d.id} — copy → post it → Engine Action → posted (or terminal: run_engine.py posted ${d.id})`));
       q.appendChild(card);
     }
     if (all.length > drafts.length) {

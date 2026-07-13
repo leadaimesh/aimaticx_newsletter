@@ -75,14 +75,29 @@ python run_engine.py demo
 python run_engine.py serve
 ```
 
-## Daily 10-minute review (draft-only mode)
+## Run everything from your iPhone
 
-**From your phone** (GitHub mobile app or browser): open each draft on the
-dashboard, hit *copy draft*, post/send it, then Actions tab → **Engine
-Action** → Run workflow → `posted` (or `dismiss` / `replied` / `suppress` /
-`approve-email`) with the draft id. No laptop needed.
+One-time setup (5 minutes):
 
-**From a terminal:**
+1. **Install the GitHub app** from the App Store and sign in — this gives you
+   the Engine Action buttons, run history, and failure alerts as push
+   notifications.
+2. **Turn on the hosted dashboard**: repo Settings → Pages → Source *GitHub
+   Actions*, and add repository variable `DEPLOY_DASHBOARD=true`.
+3. **Add it to your home screen**: open the Pages URL in Safari → Share →
+   *Add to Home Screen*. It installs like an app (own icon, full screen,
+   light/dark aware).
+
+The daily loop, entirely on the phone:
+
+- Your **digest email** arrives each morning with the numbers and hottest leads.
+- Open the **Sales Engine app** → *Waiting on you* → read a draft → **copy
+  draft** → tap *view thread* → paste your reply (or send the email).
+- Tap the **⚡ Engine Action** button (top of the queue) → Run workflow →
+  `posted` / `dismiss` / `replied` / `approve-email` / `suppress` + the draft
+  id shown on the card. The dashboard refreshes itself on the next engine run.
+
+## Daily review from a terminal (alternative)
 
 ```bash
 python run_engine.py queue              # what's waiting

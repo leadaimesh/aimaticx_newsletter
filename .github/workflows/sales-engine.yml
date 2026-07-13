@@ -2,12 +2,14 @@ name: Daily Sales Engine
 
 on:
   schedule:
-    # 3x daily — speed-to-lead matters: a helpful reply on a 2-hour-old thread
-    # far outperforms a perfect one three days later. Dedupe means each run
-    # only scores signals it hasn't seen; the digest still goes out once/day.
-    - cron: "5 13 * * *"     # ≈ 8am US Central: overnight leads ready by morning
-    - cron: "5 18 * * *"     # ≈ 1pm CT
-    - cron: "5 23 * * *"     # ≈ 6pm CT
+    # Every 4 hours, around the clock — Doc2Translate's starting niche is
+    # European, so the engine must be awake during the EU business day
+    # (roughly 07:00-17:00 UTC) as well as US hours. Speed-to-lead is the
+    # whole game on forums: a reply on a 2-hour-old thread far outperforms a
+    # day-old one. Cost stays flat: sources are free APIs and dedupe means
+    # Claude only scores signals it hasn't seen before. The digest still
+    # goes out once per day (first run after 13:00 UTC).
+    - cron: "5 1,5,9,13,17,21 * * *"
   workflow_dispatch: {}      # run it manually from the Actions tab any time
 
 permissions:

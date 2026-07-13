@@ -30,13 +30,17 @@ outreach:
 
 email:
   # Only used when RESEND_API_KEY + FROM_EMAIL are set and SEND_ENABLED=true.
-  send_window_utc: [13, 21]     # only send between these UTC hours (business hours US)
+  # Window covers late EU morning through US afternoon so both audiences get
+  # emails during their business hours (Doc2Translate's niche is European).
+  send_window_utc: [8, 21]
   unsubscribe_footer: >
     You're receiving this one-time note because you publicly asked about this
     topic. Reply "no thanks" and you won't hear from me again.
 
 digest:
   # Daily owner digest (emailed if email is configured; always written to
-  # data/digest.md either way).
+  # data/digest.md either way). The engine runs every 4 hours; the digest is
+  # sent once, on the first run at/after this UTC hour (13 ≈ 8am US Central).
   enabled: true
+  send_after_utc_hour: 13
   top_leads: 10
