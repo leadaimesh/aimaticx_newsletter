@@ -1,0 +1,73 @@
+# Manage the outreach queue from anywhere — including the GitHub mobile app.
+# Actions tab → "Engine Action" → Run workflow → pick a command.
+# No laptop or Python needed.
+
+name: Engine Action
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "What to do"
+        required: true
+        type: choice
+        options:
+          - posted        # I posted this reply myself — mark it done
+          - approve-email # attach an email address to an email draft
+          - dismiss       # not a fit, drop the draft
+          - replied       # the lead replied! record it + stop follow-ups
+          - suppress      # never contact this email/handle again
+      draft_id:
+        description: "Draft id (from the dashboard card or digest)"
+        required: false
+      email:
+        description: "Lead's email (approve-email) or address/handle (suppress)"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sales-engine        # never race the scheduled run
+  cancel-in-progress: false
+
+jobs:
+  action:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run command
+        env:
+          CMD: ${{ inputs.command }}
+          DRAFT_ID: ${{ inputs.draft_id }}
+          EMAIL: ${{ inputs.email }}
+        run: |
+          set -e
+          case "$CMD" in
+            posted|dismiss|replied)
+              python run_engine.py "$CMD" "$DRAFT_ID" ;;
+            approve-email)
+              python run_engine.py approve "$DRAFT_ID" --email "$EMAIL" ;;
+            suppress)
+              python run_engine.py suppress "$EMAIL" --reason unsubscribed ;;
+          esac
+          python run_engine.py report
+
+      - name: Commit
+        run: |
+          git config user.name "sales-engine-bot"
+          git config user.email "actions@github.com"
+          git add data/ dashboard/data.json
+          git diff --cached --quiet || (git commit -m "chore: engine action ${{ inputs.command }} ${{ inputs.draft_id }}" && git pull --rebase && git push)

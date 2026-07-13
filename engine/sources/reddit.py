@@ -56,5 +56,6 @@ def discover_reddit(product: Product, lookback_hours: int) -> list[dict]:
                 "body": (post.get("selftext") or "")[:4000],
                 "author": post.get("author"),
                 "posted_at": iso_from_ts(created),
+                "matched_phrase": phrase,
             })
     return signals

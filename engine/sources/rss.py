@@ -36,7 +36,8 @@ def discover_rss(product: Product, feeds: list[str]) -> list[dict]:
                 link = atom_link.get("href", "") if atom_link is not None else ""
 
             text = f"{title} {desc}".lower()
-            if not any(k in text for k in keywords):
+            matched = next((k for k in keywords if k in text), None)
+            if matched is None:
                 continue
             if matches_negative(text, product.negative_keywords):
                 continue
@@ -49,6 +50,7 @@ def discover_rss(product: Product, feeds: list[str]) -> list[dict]:
                 "body": desc[:4000],
                 "author": None,
                 "posted_at": None,
+                "matched_phrase": matched,
             })
     return signals
 

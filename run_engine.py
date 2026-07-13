@@ -16,7 +16,8 @@ Working the queue:
     python run_engine.py replied <draft_id>         # lead replied — stops follow-ups
     python run_engine.py suppress <email-or-handle> [--reason unsubscribed]
 
-Local dashboard:
+Setup check & local dashboard:
+    python run_engine.py doctor                     # is everything configured?
     python run_engine.py demo [--reset]             # seed sample data
     python run_engine.py serve                      # http://localhost:8422
 """
@@ -151,6 +152,9 @@ def main() -> int:
         suppress(conn, args.arg, args.reason)
         print(f"{args.arg} suppressed ({args.reason}).")
 
+    elif args.command == "doctor":
+        return _doctor(cfg)
+
     elif args.command == "demo":
         if args.reset:
             reset_db(conn)
@@ -171,6 +175,41 @@ def main() -> int:
         parser.print_help()
         return 1
     return 0
+
+
+def _doctor(cfg) -> int:
+    """Pre-flight check: is the engine ready for a real run?"""
+    from pathlib import Path
+    problems = 0
+
+    def check(ok: bool, label: str, hint: str = "", warn: bool = False) -> None:
+        nonlocal problems
+        mark = "PASS" if ok else ("WARN" if warn else "FAIL")
+        if not ok and not warn:
+            problems += 1
+        print(f"[{mark}] {label}" + (f" — {hint}" if not ok and hint else ""))
+
+    check(bool(cfg.anthropic_api_key), "ANTHROPIC_API_KEY set",
+          "required: scoring and outreach can't run without it")
+    check(bool(cfg.serper_api_key), "SERPER_API_KEY set",
+          "optional: adds Google/Quora discovery (serper.dev)", warn=True)
+    check(cfg.email_configured, "Email configured (RESEND_API_KEY + FROM_EMAIL)",
+          "optional: enables sending + your daily digest email", warn=True)
+    check(bool(cfg.owner_email), "OWNER_EMAIL set", "digest destination", warn=True)
+    check(len(cfg.products) > 0, "products.yaml has products")
+    for p in cfg.products:
+        check(bool(p.pain_phrases), f"{p.name}: has pain_phrases",
+              "discovery needs search phrases")
+    raw = Path("config/products.yaml").read_text(encoding="utf-8")
+    check("TODO(Dan)" not in raw, "products.yaml placeholders replaced",
+          "URLs/pricing marked TODO(Dan) are quoted verbatim in outreach", warn=True)
+    if cfg.send_enabled and not cfg.email_configured:
+        check(False, "SEND_ENABLED=true but email not configured",
+              "set RESEND_API_KEY + FROM_EMAIL or flip SEND_ENABLED back to false")
+    mode = "EMAIL AUTOPILOT" if (cfg.send_enabled and cfg.email_configured) else "draft-only"
+    print(f"\nMode: {mode} · daily email cap {cfg.daily_email_cap}")
+    print("Ready." if problems == 0 else f"{problems} blocking problem(s) above.")
+    return 0 if problems == 0 else 1
 
 
 def _require_api_key(cfg) -> None:

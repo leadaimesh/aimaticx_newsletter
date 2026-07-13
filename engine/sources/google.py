@@ -53,5 +53,6 @@ def discover_google(product: Product, lookback_hours: int, api_key: str | None) 
                     "body": item.get("snippet", ""),
                     "author": None,
                     "posted_at": None,
+                    "matched_phrase": phrase,
                 })
     return signals

@@ -1,0 +1,41 @@
+# Publishes the dashboard to GitHub Pages so you get a permanent URL that
+# updates after every engine run — no local Python needed.
+#
+# One-time setup: repo Settings → Pages → Source: "GitHub Actions",
+# then Settings → Secrets and variables → Actions → Variables →
+# add DEPLOY_DASHBOARD = true.
+#
+# Note: Pages sites on free plans are public. The dashboard shows lead posts
+# (already-public forum content) and your draft texts — if you'd rather keep
+# it private, skip this and use `python run_engine.py serve` locally.
+
+name: Deploy Dashboard
+
+on:
+  push:
+    paths: ["dashboard/**"]
+  workflow_dispatch: {}
+
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: vars.DEPLOY_DASHBOARD == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dashboard
+      - id: deployment
+        uses: actions/deploy-pages@v4

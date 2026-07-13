@@ -12,14 +12,18 @@ import sqlite3
 
 from .ai import AI
 from .config import Config
-from .db import bump_metric, is_suppressed, log_event, now_iso
+from .db import bump_metric, drafts_created_today, is_suppressed, log_event, now_iso
 
 
 def create_drafts(conn: sqlite3.Connection, cfg: Config, ai: AI) -> dict:
     max_drafts = cfg.settings.get("outreach", {}).get("max_drafts_per_day", 25)
     footer = cfg.settings.get("email", {}).get("unsubscribe_footer", "").strip()
 
+    # The cap is per DAY, not per run — the engine runs several times daily.
+    max_drafts = max(0, max_drafts - drafts_created_today(conn))
     stats = {"drafts": 0, "suppressed": 0}
+    if max_drafts == 0:
+        return stats
 
     rows = conn.execute(
         """SELECT s.* FROM signals s

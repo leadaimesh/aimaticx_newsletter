@@ -67,8 +67,9 @@ def seed_demo(conn: sqlite3.Connection, cfg: Config, days: int = 35) -> None:
                 posted = day - timedelta(hours=rng.randint(0, 20))
                 cur = conn.execute(
                     """INSERT INTO signals (product_id, source, source_id, url, title, body,
-                              author, posted_at, found_at, status, score, score_detail, channel)
-                       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                              author, posted_at, found_at, status, score, score_detail, channel,
+                              matched_phrase)
+                       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (
                         product.id, source,
                         f"demo:{product.id}:{day_offset}:{i}",
@@ -81,6 +82,7 @@ def seed_demo(conn: sqlite3.Connection, cfg: Config, days: int = 35) -> None:
                         score,
                         json.dumps({"rationale": rng.choice(RATIONALES)}),
                         channel,
+                        rng.choice(product.pain_phrases) if product.pain_phrases else None,
                     ),
                 )
                 signal_id = cur.lastrowid

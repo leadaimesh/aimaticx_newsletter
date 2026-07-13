@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS signals (
     author TEXT,
     posted_at TEXT,                     -- when the person posted (UTC ISO)
     found_at TEXT NOT NULL,             -- when we discovered it
+    matched_phrase TEXT,                -- which search phrase found this lead
     status TEXT NOT NULL DEFAULT 'new', -- new | scored | qualified | skipped
     score INTEGER,                      -- 0-100 (rubric subscores summed in code)
     score_detail TEXT,                  -- JSON: per-criterion subscores + rationale
@@ -84,6 +85,10 @@ def connect(db_path: Path | None = None) -> sqlite3.Connection:
     conn = sqlite3.connect(path)
     conn.row_factory = sqlite3.Row
     conn.executescript(SCHEMA)
+    try:  # migration for DBs created before phrase tracking
+        conn.execute("ALTER TABLE signals ADD COLUMN matched_phrase TEXT")
+    except sqlite3.OperationalError:
+        pass
     return conn
 
 
@@ -100,12 +105,14 @@ def insert_signal(conn: sqlite3.Connection, sig: dict) -> bool:
     try:
         conn.execute(
             """INSERT INTO signals
-               (product_id, source, source_id, url, title, body, author, posted_at, found_at)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+               (product_id, source, source_id, url, title, body, author, posted_at,
+                found_at, matched_phrase)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 sig["product_id"], sig["source"], sig["source_id"],
                 sig.get("url"), sig.get("title"), sig.get("body"),
                 sig.get("author"), sig.get("posted_at"), now_iso(),
+                sig.get("matched_phrase"),
             ),
         )
         conn.commit()
@@ -139,6 +146,14 @@ def suppress(conn: sqlite3.Connection, identifier: str, reason: str) -> None:
         (identifier.lower(), reason, now_iso()),
     )
     conn.commit()
+
+
+def drafts_created_today(conn: sqlite3.Connection) -> int:
+    row = conn.execute(
+        "SELECT COUNT(*) AS n FROM drafts WHERE touch=1 AND created_at LIKE ?",
+        (today() + "%",),
+    ).fetchone()
+    return row["n"]
 
 
 def emails_sent_today(conn: sqlite3.Connection) -> int:

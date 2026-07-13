@@ -42,5 +42,6 @@ def discover_hackernews(product: Product, lookback_hours: int) -> list[dict]:
                 "body": body[:4000],
                 "author": hit.get("author"),
                 "posted_at": iso_from_ts(hit.get("created_at_i")),
+                "matched_phrase": query,
             })
     return signals

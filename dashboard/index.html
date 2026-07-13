@@ -219,6 +219,13 @@
   </div>
 
   <div class="card" style="margin-bottom:14px">
+    <div class="head"><h2>Which searches find buyers — qualified leads by phrase (90d)</h2>
+      <button class="tbl-toggle" data-for="byphrase">table</button></div>
+    <div class="chart-box" id="byphrase"></div>
+    <div class="hidden" id="byphrase-table"></div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
     <div class="head"><h2>Waiting on you — outreach drafts to approve</h2></div>
     <div id="queue"></div>
   </div>
@@ -519,10 +526,10 @@
   }
 
   // ── nominal bar charts (single hue, slot 1) ────────────────────────────────
-  function renderBars(boxId, pairs, ariaLabel) {
+  function renderBars(boxId, pairs, ariaLabel, labelW = 118) {
     const box = $(boxId); box.textContent = "";
     const W = box.clientWidth || 400;
-    const labelW = 118, valueW = 46, barMaxW = W - labelW - valueW - 8;
+    const valueW = 46, barMaxW = W - labelW - valueW - 8;
     const barH = 20, gap = 12;
     const H = Math.max(1, pairs.length) * (barH + gap) + 6;
     const max = Math.max(1, ...pairs.map(p => p[1]));
@@ -533,7 +540,8 @@
       const w = Math.max(v > 0 ? 3 : 0, (v / max) * barMaxW);
       const lab = svgEl("text", { x: labelW - 8, y: yy + barH / 2 + 4,
                                   "text-anchor": "end", class: "catlabel" });
-      lab.textContent = name;
+      const maxChars = Math.floor(labelW / 6.4);
+      lab.textContent = name.length > maxChars ? name.slice(0, maxChars - 1) + "…" : name;
       svg.appendChild(lab);
       if (w > 0) {
         const r = Math.min(4, w / 2);
@@ -584,6 +592,17 @@
         more.textContent = card.classList.contains("open") ? "collapse" : "show full draft";
       });
       card.appendChild(more);
+      const copy = el("button", "more", "copy draft");
+      copy.style.marginLeft = "14px";
+      copy.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(
+            (d.subject ? "Subject: " + d.subject + "\n\n" : "") + (d.body || ""));
+          copy.textContent = "copied ✓";
+          setTimeout(() => { copy.textContent = "copy draft"; }, 1600);
+        } catch { copy.textContent = "copy failed — select text manually"; }
+      });
+      card.appendChild(copy);
       card.appendChild(el("div", "cli",
         d.kind === "email"
           ? `python run_engine.py approve ${d.id} --email <their@address>   ·   dismiss ${d.id}`
@@ -679,6 +698,13 @@
       [s.source, s.signals, `${s.qualified} qualified`]);
     renderBars("bysource", bySource, "Signals by source");
     fillTable($("bysource-table"), ["Source", "Signals"], bySource.map(s => [s[0], s[1]]));
+
+    const byPhrase = (DATA.by_phrase || []).map(p =>
+      [`"${p.phrase}"`, p.qualified,
+       `${p.signals} signals · ${productName(p.product_id)}`]);
+    renderBars("byphrase", byPhrase, "Qualified leads by search phrase", 300);
+    fillTable($("byphrase-table"), ["Search phrase", "Qualified"],
+      (DATA.by_phrase || []).map(p => [`"${p.phrase}" (${productName(p.product_id)})`, p.qualified]));
 
     renderQueue();
     renderLeads();

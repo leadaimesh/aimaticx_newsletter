@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 
 from .ai import AI
 from .config import Config, DASHBOARD_DIR, DATA_DIR
-from .db import log_event, now_iso
+from .db import log_event, now_iso, today
 from .sender import send_owner_email
 
 DASHBOARD_JSON = DASHBOARD_DIR / "data.json"
@@ -115,6 +115,19 @@ def build_dashboard_data(conn: sqlite3.Connection, cfg: Config, demo: bool = Fal
         )
     ]
 
+    # Which search phrases actually find buyers — the main tuning signal.
+    by_phrase = [
+        dict(row)
+        for row in conn.execute(
+            """SELECT matched_phrase AS phrase, product_id, COUNT(*) AS signals,
+                      SUM(CASE WHEN status='qualified' THEN 1 ELSE 0 END) AS qualified
+               FROM signals WHERE found_at >= ? AND matched_phrase IS NOT NULL
+               GROUP BY matched_phrase, product_id
+               ORDER BY qualified DESC, signals DESC LIMIT 12""",
+            (since,),
+        )
+    ]
+
     return {
         "generated_at": now_iso(),
         "demo": demo,
@@ -124,6 +137,7 @@ def build_dashboard_data(conn: sqlite3.Connection, cfg: Config, demo: bool = Fal
         "top_leads": top_leads,
         "pending_drafts": pending_drafts,
         "by_source": by_source,
+        "by_phrase": by_phrase,
         "benchmarks": BENCHMARKS,
         "autopilot": {
             "send_enabled": cfg.send_enabled,
@@ -144,12 +158,20 @@ def write_dashboard(conn: sqlite3.Connection, cfg: Config, demo: bool = False) -
 def send_digest(conn: sqlite3.Connection, cfg: Config, ai: AI, data: dict) -> None:
     if not cfg.settings.get("digest", {}).get("enabled", True):
         return
+    # The engine runs several times a day; the digest goes out once.
+    already = conn.execute(
+        """SELECT 1 FROM events
+           WHERE kind IN ('digest_emailed','digest_written') AND at LIKE ?""",
+        (today() + "%",),
+    ).fetchone()
+    if already:
+        return
     top_n = cfg.settings.get("digest", {}).get("top_leads", 10)
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    today_rows = [d for d in data["daily"] if d["date"] == today]
+    day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    today_rows = [d for d in data["daily"] if d["date"] == day]
 
     summary = {
-        "date": today,
+        "date": day,
         "today": {
             "signals_found": sum(d["signals"] for d in today_rows),
             "qualified_leads": sum(d["qualified"] for d in today_rows),
@@ -158,6 +180,7 @@ def send_digest(conn: sqlite3.Connection, cfg: Config, ai: AI, data: dict) -> No
         },
         "pending_drafts_awaiting_approval": len(data["pending_drafts"]),
         "top_leads": data["top_leads"][:top_n],
+        "best_search_phrases_90d": data.get("by_phrase", [])[:5],
         "autopilot": data["autopilot"],
     }
 
@@ -167,9 +190,9 @@ def send_digest(conn: sqlite3.Connection, cfg: Config, ai: AI, data: dict) -> No
         digest = f"(Digest generation failed: {exc})\n\n{json.dumps(summary, indent=1)}"
 
     DIGEST_MD.parent.mkdir(parents=True, exist_ok=True)
-    DIGEST_MD.write_text(f"# Sales engine digest — {today}\n\n{digest}\n", encoding="utf-8")
+    DIGEST_MD.write_text(f"# Sales engine digest — {day}\n\n{digest}\n", encoding="utf-8")
 
-    if send_owner_email(cfg, f"Sales engine digest — {today}", digest):
+    if send_owner_email(cfg, f"Sales engine digest — {day}", digest):
         log_event(conn, "digest_emailed", cfg.owner_email or "")
     else:
         log_event(conn, "digest_written", str(DIGEST_MD))

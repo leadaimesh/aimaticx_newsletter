@@ -47,8 +47,12 @@ even that).
    - `SEND_ENABLED` = `false` to start (drafts only) — flip to `true` for
      full email autopilot once you've reviewed a week of drafts
    - `DAILY_EMAIL_CAP` = `20`
-4. **Run it once**: Actions tab → *Daily Sales Engine* → Run workflow.
-   After that it runs itself every morning (13:05 UTC).
+4. **Check the setup**: `python run_engine.py doctor` (or just look at the
+   first run's logs).
+5. **Run it once**: Actions tab → *Daily Sales Engine* → Run workflow.
+   After that it runs itself **3× a day** (morning / midday / evening US) —
+   speed matters: a reply on a 2-hour-old thread far outperforms a day-old
+   one. The digest still arrives once each morning.
 
 ## The dashboard
 
@@ -58,8 +62,10 @@ The engine commits `dashboard/data.json` after every run. View it:
 python run_engine.py serve        # → http://localhost:8422
 ```
 
-Or turn on GitHub Pages (Settings → Pages → deploy from this branch,
-`/dashboard` folder) for an always-on URL.
+Or get an always-on URL that updates after every run: repo Settings → Pages →
+Source: *GitHub Actions*, then add repository variable `DEPLOY_DASHBOARD=true`.
+(Pages sites on free plans are public — the dashboard only shows already-public
+forum posts and your drafts, but skip this if you'd rather keep it private.)
 
 Before the first real run you can preview it with sample data:
 
@@ -70,6 +76,13 @@ python run_engine.py serve
 ```
 
 ## Daily 10-minute review (draft-only mode)
+
+**From your phone** (GitHub mobile app or browser): open each draft on the
+dashboard, hit *copy draft*, post/send it, then Actions tab → **Engine
+Action** → Run workflow → `posted` (or `dismiss` / `replied` / `suppress` /
+`approve-email`) with the draft id. No laptop needed.
+
+**From a terminal:**
 
 ```bash
 python run_engine.py queue              # what's waiting
@@ -109,5 +122,10 @@ docs/PLAYBOOK.md          the strategy: benchmarks, compliance, scaling path
 - **Compliance**: every email carries an opt-out footer; `suppress` handles
   unsubscribes/bounces instantly; per-lead provenance is stored for every
   contact.
+- **Self-monitoring**: if a scheduled run fails, a GitHub issue opens
+  automatically (labeled `engine-failure`) so it never dies silently. The
+  dashboard's "Which searches find buyers" chart shows which `pain_phrases`
+  actually produce qualified leads — prune the duds, add variants of the
+  winners.
 
 EHS is intentionally excluded from this engine per owner instruction.
