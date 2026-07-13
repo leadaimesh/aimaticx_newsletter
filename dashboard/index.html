@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sales Engine — Command Center</title>
+<style>
+  :root {
+    --surface-1: #fcfcfb;      /* chart surface */
+    --page: #f9f9f7;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --muted: #898781;
+    --grid: #e1e0d9;
+    --baseline: #c3c2b7;
+    --border: rgba(11,11,11,0.10);
+    --series-1: #2a78d6;       /* categorical slot 1 (blue) */
+    --series-2: #1baf7a;       /* categorical slot 2 (aqua) */
+    --delta-good: #006300;
+    --delta-bad: #d03b3b;
+    --status-good: #0ca30c;
+    --status-warning: #fab219;
+    /* ordinal funnel ramp (blue 250→650, validated --ordinal light) */
+    --ord-1: #86b6ef; --ord-2: #5598e7; --ord-3: #2a78d6; --ord-4: #1c5cab; --ord-5: #104281;
+    --wash: rgba(42,120,214,0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface-1: #1a1a19;
+      --page: #0d0d0d;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --muted: #898781;
+      --grid: #2c2c2a;
+      --baseline: #383835;
+      --border: rgba(255,255,255,0.10);
+      --series-1: #3987e5;
+      --series-2: #199e70;
+      --delta-good: #0ca30c;
+      /* ordinal funnel ramp (blue 200→600, validated --ordinal dark) */
+      --ord-1: #9ec5f4; --ord-2: #6da7ec; --ord-3: #3987e5; --ord-4: #256abf; --ord-5: #184f95;
+      --wash: rgba(57,135,229,0.12);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--page); color: var(--text-primary);
+    font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding: 24px 20px 64px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  /* header */
+  header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+  header h1 { font-size: 20px; font-weight: 650; }
+  .meta { color: var(--muted); font-size: 12.5px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+    border: 1px solid var(--border); color: var(--text-secondary); background: var(--surface-1);
+  }
+  .pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .banner {
+    margin: 12px 0 4px; padding: 9px 14px; border-radius: 8px; font-size: 13px;
+    background: var(--surface-1); border: 1px solid var(--border); color: var(--text-secondary);
+  }
+  .banner strong { color: var(--text-primary); }
+
+  /* filter row */
+  .filters { display: flex; gap: 8px; align-items: center; margin: 18px 0 16px; }
+  .filters .label { color: var(--muted); font-size: 12.5px; margin-right: 2px; }
+  .filters button {
+    font: 600 12.5px system-ui, sans-serif; color: var(--text-secondary);
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 7px; padding: 5px 12px; cursor: pointer;
+  }
+  .filters button:hover { background: var(--wash); }
+  .filters button[aria-pressed="true"] {
+    color: var(--text-primary); border-color: var(--series-1); font-weight: 700;
+  }
+  .filters button[aria-pressed="true"]::before { content: "✓ "; font-weight: 700; }
+
+  /* cards & grid */
+  .grid { display: grid; gap: 14px; }
+  .kpis { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: 14px; }
+  .two { grid-template-columns: 3fr 2fr; margin-bottom: 14px; }
+  .pair { grid-template-columns: 1fr 1fr; margin-bottom: 14px; }
+  @media (max-width: 860px) { .two, .pair { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 18px;
+  }
+  .card h2 { font-size: 13.5px; font-weight: 650; color: var(--text-secondary); }
+  .card .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .tbl-toggle {
+    font: 600 11.5px system-ui, sans-serif; color: var(--muted); background: none;
+    border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; cursor: pointer;
+  }
+  .tbl-toggle:hover { color: var(--text-primary); background: var(--wash); }
+
+  /* stat tiles */
+  .tile .label { font-size: 12.5px; color: var(--text-secondary); }
+  .tile .value { font-size: 30px; font-weight: 650; margin: 2px 0 0; } /* proportional figures */
+  .tile .delta { font-size: 12px; font-weight: 600; }
+  .tile .delta.up { color: var(--delta-good); }
+  .tile .delta.down { color: var(--delta-bad); }
+  .tile .delta .vs { color: var(--muted); font-weight: 400; }
+  .tile svg { display: block; margin-top: 8px; }
+
+  /* charts */
+  .chart-box { position: relative; }
+  svg text { font: 11px system-ui, sans-serif; fill: var(--muted); }
+  svg .endlabel { font-weight: 650; fill: var(--text-primary); font-size: 11.5px; }
+  svg .barlabel { font-weight: 600; fill: var(--text-primary); font-size: 11.5px; }
+  svg .catlabel { fill: var(--text-secondary); font-size: 12px; }
+
+  .tooltip {
+    position: absolute; pointer-events: none; z-index: 5; display: none;
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.14); padding: 8px 11px; min-width: 130px;
+  }
+  .tooltip .t-date { color: var(--muted); font-size: 11px; margin-bottom: 4px; }
+  .tooltip .row { display: flex; align-items: center; gap: 7px; margin: 2px 0; }
+  .tooltip .key { width: 14px; height: 0; border-top: 3px solid; border-radius: 2px; }
+  .tooltip .val { font-weight: 700; }
+  .tooltip .name { color: var(--text-secondary); font-size: 12px; }
+
+  /* legend */
+  .legend { display: flex; gap: 16px; margin-top: 8px; font-size: 12px; color: var(--text-secondary); }
+  .legend .item { display: inline-flex; align-items: center; gap: 6px; }
+  .legend .swatch-line { width: 16px; border-top: 3px solid; border-radius: 2px; }
+
+  /* tables */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; color: var(--muted); font-weight: 600; font-size: 11.5px;
+       text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 8px;
+       border-bottom: 1px solid var(--grid); }
+  td { padding: 7px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  a { color: var(--series-1); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .score-chip {
+    display: inline-block; min-width: 34px; text-align: center; font-weight: 700;
+    font-size: 12px; padding: 2px 7px; border-radius: 6px;
+    background: var(--wash); color: var(--text-primary);
+  }
+  .src { color: var(--muted); font-size: 12px; }
+
+  /* draft queue */
+  .draft { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; }
+  .draft .top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px; }
+  .kind {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 6px; background: var(--wash); color: var(--text-primary);
+  }
+  .draft .body { color: var(--text-secondary); white-space: pre-wrap; font-size: 13px;
+                 max-height: 74px; overflow: hidden; }
+  .draft.open .body { max-height: none; }
+  .draft .more { font: 600 12px system-ui, sans-serif; color: var(--series-1);
+                 background: none; border: none; padding: 4px 0 0; cursor: pointer; }
+  .cli { font-family: ui-monospace, monospace; font-size: 11.5px; color: var(--muted);
+         margin-top: 6px; }
+  .empty { color: var(--muted); padding: 18px 0; text-align: center; }
+  footer { color: var(--muted); font-size: 12px; margin-top: 26px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Sales Engine</h1>
+    <span class="pill" id="autopilot-pill"><span class="dot"></span><span id="autopilot-text"></span></span>
+    <span class="meta" id="generated-at"></span>
+  </header>
+  <div class="banner hidden" id="demo-banner">
+    <strong>⚠ Sample data.</strong> This is seeded demo data so you can see the dashboard.
+    It is replaced automatically after the first real daily run.
+  </div>
+
+  <div class="filters" role="group" aria-label="Date range">
+    <span class="label">Range</span>
+    <button data-days="7" aria-pressed="false">Last 7 days</button>
+    <button data-days="30" aria-pressed="true">Last 30 days</button>
+    <button data-days="90" aria-pressed="false">Last 90 days</button>
+  </div>
+
+  <div class="grid kpis" id="kpi-row"></div>
+
+  <div class="grid two">
+    <div class="card">
+      <div class="head"><h2>Signals &amp; qualified leads per day</h2>
+        <button class="tbl-toggle" data-for="trend">table</button></div>
+      <div class="chart-box" id="trend"></div>
+      <div class="legend" id="trend-legend"></div>
+      <div class="hidden" id="trend-table"></div>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Funnel — selected range</h2>
+        <button class="tbl-toggle" data-for="funnel">table</button></div>
+      <div class="chart-box" id="funnel"></div>
+      <div class="hidden" id="funnel-table"></div>
+    </div>
+  </div>
+
+  <div class="grid pair">
+    <div class="card">
+      <div class="head"><h2>Qualified leads by product</h2>
+        <button class="tbl-toggle" data-for="byproduct">table</button></div>
+      <div class="chart-box" id="byproduct"></div>
+      <div class="hidden" id="byproduct-table"></div>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Signals by source</h2>
+        <button class="tbl-toggle" data-for="bysource">table</button></div>
+      <div class="chart-box" id="bysource"></div>
+      <div class="hidden" id="bysource-table"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="head"><h2>Waiting on you — outreach drafts to approve</h2></div>
+    <div id="queue"></div>
+  </div>
+
+  <div class="card">
+    <div class="head"><h2>Hottest leads</h2></div>
+    <div style="overflow-x:auto"><table id="leads-table"></table></div>
+  </div>
+
+  <footer>
+    Benchmarks to beat: ≥5% reply rate on contacted leads, ≥25% of replies to a trial.
+    Approve drafts from the terminal: <code>python run_engine.py queue</code>.
+  </footer>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+"use strict";
+(async function () {
+  let DATA;
+  try {
+    DATA = await (await fetch("./data.json", { cache: "no-store" })).json();
+  } catch (e) {
+    document.getElementById("kpi-row").textContent =
+      "No data.json yet — run: python run_engine.py demo";
+    return;
+  }
+
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;   // untrusted data → textContent
+    return n;
+  };
+  const svgEl = (tag, attrs) => {
+    const n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  };
+  const fmt = (n) => n >= 10000 ? (n / 1000).toFixed(1) + "K" : String(Math.round(n));
+  const productName = (id) => (DATA.products.find(p => p.id === id) || { name: id }).name;
+
+  // header
+  $("generated-at").textContent = "updated " + (DATA.generated_at || "").replace("T", " ").replace("Z", " UTC");
+  const ap = DATA.autopilot || {};
+  const apOn = ap.send_enabled && ap.email_configured;
+  $("autopilot-text").textContent = apOn
+    ? `email autopilot ON · cap ${ap.daily_email_cap}/day` : "draft-only mode";
+  $("autopilot-pill").querySelector(".dot").style.background =
+    apOn ? css("--status-good") : css("--muted");
+  if (DATA.demo) $("demo-banner").classList.remove("hidden");
+
+  // ── range state ────────────────────────────────────────────────────────────
+  let rangeDays = 30;
+  document.querySelectorAll(".filters button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      rangeDays = +btn.dataset.days;
+      document.querySelectorAll(".filters button")
+        .forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+      render();
+    });
+  });
+  document.querySelectorAll(".tbl-toggle").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const chart = $(btn.dataset.for), table = $(btn.dataset.for + "-table");
+      const showTable = table.classList.contains("hidden");
+      table.classList.toggle("hidden", !showTable);
+      chart.classList.toggle("hidden", showTable);
+      btn.textContent = showTable ? "chart" : "table";
+    });
+  });
+
+  const tooltip = $("tooltip");
+  function showTip(x, y, build) {
+    tooltip.textContent = "";
+    build(tooltip);
+    tooltip.style.display = "block";
+    const r = tooltip.getBoundingClientRect();
+    tooltip.style.left = Math.min(x + 14, window.innerWidth - r.width - 12) + window.scrollX + "px";
+    tooltip.style.top = (y - r.height - 10 + window.scrollY) + "px";
+  }
+  const hideTip = () => { tooltip.style.display = "none"; };
+
+  // ── data slicing ───────────────────────────────────────────────────────────
+  function dailyTotals(days) {
+    const out = [];
+    // Window ends at the last day that actually has data (avoids a misleading
+    // dive-to-zero for a day the engine hasn't run yet).
+    const lastDate = DATA.daily.length
+      ? DATA.daily.reduce((a, r) => r.date > a ? r.date : a, "")
+      : (DATA.generated_at || new Date().toISOString()).slice(0, 10);
+    const today = new Date(lastDate + "T00:00:00Z");
+    for (let i = days - 1; i >= 0; i--) {
+      const d = new Date(today); d.setUTCDate(d.getUTCDate() - i);
+      const key = d.toISOString().slice(0, 10);
+      const rows = DATA.daily.filter(r => r.date === key);
+      out.push({
+        date: key,
+        signals: rows.reduce((a, r) => a + r.signals, 0),
+        qualified: rows.reduce((a, r) => a + r.qualified, 0),
+        drafted: rows.reduce((a, r) => a + r.drafted, 0),
+        contacted: rows.reduce((a, r) => a + r.contacted, 0),
+        replies: rows.reduce((a, r) => a + r.replies, 0),
+      });
+    }
+    return out;
+  }
+  const sum = (rows, k) => rows.reduce((a, r) => a + r[k], 0);
+
+  // ── KPI tiles ──────────────────────────────────────────────────────────────
+  function renderKpis(cur, prev) {
+    const defs = [
+      ["Signals found", "signals"], ["Qualified leads", "qualified"],
+      ["Drafts created", "drafted"], ["Contacted", "contacted"], ["Replies", "replies"],
+    ];
+    const row = $("kpi-row"); row.textContent = "";
+    for (const [label, key] of defs) {
+      const v = sum(cur, key), pv = sum(prev, key);
+      const tile = el("div", "card tile");
+      tile.appendChild(el("div", "label", label));
+      tile.appendChild(el("div", "value", fmt(v)));
+      const delta = el("div", "delta " + (v >= pv ? "up" : "down"));
+      const diff = v - pv;
+      delta.appendChild(el("span", null, (diff >= 0 ? "▲ +" : "▼ ") + fmt(Math.abs(diff)) + " "));
+      delta.appendChild(el("span", "vs", `vs prev ${rangeDays}d`));
+      tile.appendChild(delta);
+      tile.appendChild(sparkline(cur.map(r => r[key])));
+      row.appendChild(tile);
+    }
+  }
+  function sparkline(values) {
+    const w = 150, h = 28, max = Math.max(1, ...values);
+    const pts = values.map((v, i) =>
+      `${(i / Math.max(1, values.length - 1)) * (w - 8) + 4},${h - 4 - (v / max) * (h - 8)}`);
+    const svg = svgEl("svg", { width: w, height: h, viewBox: `0 0 ${w} ${h}`, "aria-hidden": "true" });
+    svg.appendChild(svgEl("polyline", {
+      points: pts.join(" "), fill: "none", stroke: css("--baseline"),
+      "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round",
+    }));
+    const last = pts[pts.length - 1].split(",");
+    const dot = svgEl("circle", { cx: last[0], cy: last[1], r: 4, fill: css("--series-1"),
+                                  stroke: css("--surface-1"), "stroke-width": 2 });
+    svg.appendChild(dot);
+    return svg;
+  }
+
+  // ── line chart (signals vs qualified) ─────────────────────────────────────
+  function renderTrend(rows) {
+    const box = $("trend"); box.textContent = "";
+    const W = box.clientWidth || 620, H = 260;
+    const pad = { l: 40, r: 96, t: 12, b: 26 };
+    const iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+    const series = [
+      { name: "Signals", key: "signals", color: css("--series-1") },
+      { name: "Qualified", key: "qualified", color: css("--series-2") },
+    ];
+    const max = Math.max(1, ...rows.map(r => r.signals));
+    const yTicks = niceTicks(max, 4);
+    const x = (i) => pad.l + (rows.length === 1 ? iw / 2 : (i / (rows.length - 1)) * iw);
+    const y = (v) => pad.t + ih - (v / yTicks[yTicks.length - 1]) * ih;
+
+    const svg = svgEl("svg", { width: "100%", height: H, viewBox: `0 0 ${W} ${H}`,
+                               role: "img", "aria-label": "Signals and qualified leads per day" });
+    for (const t of yTicks) {
+      svg.appendChild(svgEl("line", { x1: pad.l, x2: W - pad.r, y1: y(t), y2: y(t),
+                                      stroke: css("--grid"), "stroke-width": 1 }));
+      const lab = svgEl("text", { x: pad.l - 7, y: y(t) + 4, "text-anchor": "end" });
+      lab.textContent = t.toLocaleString();
+      svg.appendChild(lab);
+    }
+    // x labels: first / middle / last
+    [0, Math.floor((rows.length - 1) / 2), rows.length - 1].forEach(i => {
+      if (i < 0 || !rows[i]) return;
+      const lab = svgEl("text", { x: x(i), y: H - 6, "text-anchor": "middle" });
+      lab.textContent = rows[i].date.slice(5);
+      svg.appendChild(lab);
+    });
+    svg.appendChild(svgEl("line", { x1: pad.l, x2: W - pad.r, y1: pad.t + ih, y2: pad.t + ih,
+                                    stroke: css("--baseline"), "stroke-width": 1 }));
+
+    // end labels: separate colliding labels and connect with leader lines
+    const ends = series.map(s => {
+      const v = rows[rows.length - 1][s.key];
+      return { s, v, dotY: y(v), labY: y(v) };
+    }).sort((a, b) => a.dotY - b.dotY);
+    const MIN_GAP = 16;
+    for (let i = 1; i < ends.length; i++) {
+      if (ends[i].labY - ends[i - 1].labY < MIN_GAP) {
+        ends[i].labY = ends[i - 1].labY + MIN_GAP;
+      }
+    }
+    for (const e of ends) {
+      const pts = rows.map((r, i) => `${x(i)},${y(r[e.s.key])}`).join(" ");
+      svg.appendChild(svgEl("polyline", { points: pts, fill: "none", stroke: e.s.color,
+        "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+      const ex = x(rows.length - 1);
+      if (Math.abs(e.labY - e.dotY) > 2) {
+        svg.appendChild(svgEl("line", { x1: ex + 5, y1: e.dotY, x2: ex + 12, y2: e.labY,
+          stroke: css("--baseline"), "stroke-width": 1 }));
+      }
+      svg.appendChild(svgEl("circle", { cx: ex, cy: e.dotY, r: 4.5,
+        fill: e.s.color, stroke: css("--surface-1"), "stroke-width": 2 }));
+      const lab = svgEl("text", { x: ex + 14, y: e.labY + 4, class: "endlabel" });
+      lab.textContent = `${fmt(e.v)} ${e.s.name.toLowerCase()}`;
+      svg.appendChild(lab);
+    }
+
+    // crosshair + tooltip
+    const hair = svgEl("line", { y1: pad.t, y2: pad.t + ih, stroke: css("--baseline"),
+                                 "stroke-width": 1, visibility: "hidden" });
+    svg.appendChild(hair);
+    const hit = svgEl("rect", { x: pad.l, y: pad.t, width: iw, height: ih,
+                                fill: "transparent" });
+    hit.style.cursor = "crosshair";
+    hit.addEventListener("pointermove", (ev) => {
+      const rect = svg.getBoundingClientRect();
+      const scale = W / rect.width;
+      const px = (ev.clientX - rect.left) * scale;
+      const i = Math.max(0, Math.min(rows.length - 1,
+        Math.round((px - pad.l) / (iw / Math.max(1, rows.length - 1)))));
+      hair.setAttribute("x1", x(i)); hair.setAttribute("x2", x(i));
+      hair.setAttribute("visibility", "visible");
+      showTip(ev.clientX, ev.clientY, (tip) => {
+        tip.appendChild(el("div", "t-date", rows[i].date));
+        for (const s of series) {
+          const row = el("div", "row");
+          const key = el("span", "key"); key.style.borderTopColor = s.color;
+          row.appendChild(key);
+          row.appendChild(el("span", "val", fmt(rows[i][s.key])));
+          row.appendChild(el("span", "name", s.name));
+          tip.appendChild(row);
+        }
+      });
+    });
+    hit.addEventListener("pointerleave", () => { hair.setAttribute("visibility", "hidden"); hideTip(); });
+    svg.appendChild(hit);
+    box.appendChild(svg);
+
+    const legend = $("trend-legend"); legend.textContent = "";
+    for (const s of series) {
+      const item = el("span", "item");
+      const sw = el("span", "swatch-line"); sw.style.borderTopColor = s.color;
+      item.appendChild(sw); item.appendChild(el("span", null, s.name));
+      legend.appendChild(item);
+    }
+    fillTable($("trend-table"), ["Date", "Signals", "Qualified"],
+      rows.map(r => [r.date, r.signals, r.qualified]));
+  }
+
+  // ── funnel (ordinal ramp, horizontal bars) ─────────────────────────────────
+  function renderFunnel(rows) {
+    const stages = [
+      ["Signals found", sum(rows, "signals"), css("--ord-1")],
+      ["Qualified", sum(rows, "qualified"), css("--ord-2")],
+      ["Drafted", sum(rows, "drafted"), css("--ord-3")],
+      ["Contacted", sum(rows, "contacted"), css("--ord-4")],
+      ["Replies", sum(rows, "replies"), css("--ord-5")],
+    ];
+    const box = $("funnel"); box.textContent = "";
+    const W = box.clientWidth || 400;
+    const labelW = 104, valueW = 52, barMaxW = W - labelW - valueW - 8;
+    const barH = 22, gap = 12;
+    const H = stages.length * (barH + gap) + 6;
+    const max = Math.max(1, stages[0][1]);
+    const svg = svgEl("svg", { width: "100%", height: H, viewBox: `0 0 ${W} ${H}`,
+                               role: "img", "aria-label": "Lead funnel" });
+    stages.forEach(([name, v, color], i) => {
+      const yy = i * (barH + gap) + 4;
+      const w = Math.max(v > 0 ? 3 : 0, (v / max) * barMaxW);
+      const lab = svgEl("text", { x: labelW - 8, y: yy + barH / 2 + 4,
+                                  "text-anchor": "end", class: "catlabel" });
+      lab.textContent = name;
+      svg.appendChild(lab);
+      if (w > 0) {
+        const r = Math.min(4, w / 2);
+        // square at baseline (left), 4px rounded data-end (right)
+        const bar = svgEl("path", { d:
+          `M${labelW},${yy} h${w - r} a${r},${r} 0 0 1 ${r},${r} v${barH - 2 * r} ` +
+          `a${r},${r} 0 0 1 -${r},${r} h-${w - r} z`, fill: color });
+        bar.style.cursor = "default";
+        const pct = i === 0 ? "" : ` · ${(v / max * 100).toFixed(1)}% of signals`;
+        bar.addEventListener("pointermove", (ev) => showTip(ev.clientX, ev.clientY, (tip) => {
+          tip.appendChild(el("div", "t-date", name));
+          tip.appendChild(el("div", "val", v.toLocaleString() + pct));
+        }));
+        bar.addEventListener("pointerleave", hideTip);
+        svg.appendChild(bar);
+      }
+      const val = svgEl("text", { x: labelW + w + 8, y: yy + barH / 2 + 4, class: "barlabel" });
+      val.textContent = fmt(v);
+      svg.appendChild(val);
+    });
+    box.appendChild(svg);
+    fillTable($("funnel-table"), ["Stage", "Count"], stages.map(s => [s[0], s[1]]));
+  }
+
+  // ── nominal bar charts (single hue, slot 1) ────────────────────────────────
+  function renderBars(boxId, pairs, ariaLabel) {
+    const box = $(boxId); box.textContent = "";
+    const W = box.clientWidth || 400;
+    const labelW = 118, valueW = 46, barMaxW = W - labelW - valueW - 8;
+    const barH = 20, gap = 12;
+    const H = Math.max(1, pairs.length) * (barH + gap) + 6;
+    const max = Math.max(1, ...pairs.map(p => p[1]));
+    const svg = svgEl("svg", { width: "100%", height: H, viewBox: `0 0 ${W} ${H}`,
+                               role: "img", "aria-label": ariaLabel });
+    pairs.forEach(([name, v, extra], i) => {
+      const yy = i * (barH + gap) + 4;
+      const w = Math.max(v > 0 ? 3 : 0, (v / max) * barMaxW);
+      const lab = svgEl("text", { x: labelW - 8, y: yy + barH / 2 + 4,
+                                  "text-anchor": "end", class: "catlabel" });
+      lab.textContent = name;
+      svg.appendChild(lab);
+      if (w > 0) {
+        const r = Math.min(4, w / 2);
+        const bar = svgEl("path", { d:
+          `M${labelW},${yy} h${w - r} a${r},${r} 0 0 1 ${r},${r} v${barH - 2 * r} ` +
+          `a${r},${r} 0 0 1 -${r},${r} h-${w - r} z`, fill: css("--series-1") });
+        bar.addEventListener("pointermove", (ev) => showTip(ev.clientX, ev.clientY, (tip) => {
+          tip.appendChild(el("div", "t-date", name));
+          tip.appendChild(el("div", "val", v.toLocaleString()));
+          if (extra) tip.appendChild(el("div", "name", extra));
+        }));
+        bar.addEventListener("pointerleave", hideTip);
+        svg.appendChild(bar);
+      }
+      const val = svgEl("text", { x: labelW + w + 8, y: yy + barH / 2 + 4, class: "barlabel" });
+      val.textContent = fmt(v);
+      svg.appendChild(val);
+    });
+    box.appendChild(svg);
+  }
+
+  // ── draft queue & leads table ──────────────────────────────────────────────
+  function renderQueue() {
+    const q = $("queue"); q.textContent = "";
+    const all = DATA.pending_drafts || [];
+    if (!all.length) {
+      q.appendChild(el("div", "empty", "Nothing pending — the queue is clear."));
+      return;
+    }
+    const drafts = all.slice(0, 10);
+    for (const d of drafts) {
+      const card = el("div", "draft");
+      const top = el("div", "top");
+      top.appendChild(el("span", "kind", d.kind === "email" ? `email · touch ${d.touch}` : "forum reply"));
+      top.appendChild(el("span", "score-chip", String(d.score ?? "")));
+      top.appendChild(el("strong", null, productName(d.product_id)));
+      if (d.url) {
+        const a = el("a", null, "view thread ↗");
+        a.href = d.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+        top.appendChild(a);
+      }
+      card.appendChild(top);
+      if (d.subject) card.appendChild(el("div", null, "Subject: " + d.subject));
+      card.appendChild(el("div", "body", d.body || ""));
+      const more = el("button", "more", "show full draft");
+      more.addEventListener("click", () => {
+        card.classList.toggle("open");
+        more.textContent = card.classList.contains("open") ? "collapse" : "show full draft";
+      });
+      card.appendChild(more);
+      card.appendChild(el("div", "cli",
+        d.kind === "email"
+          ? `python run_engine.py approve ${d.id} --email <their@address>   ·   dismiss ${d.id}`
+          : `copy → post it → python run_engine.py posted ${d.id}   ·   dismiss ${d.id}`));
+      q.appendChild(card);
+    }
+    if (all.length > drafts.length) {
+      q.appendChild(el("div", "cli",
+        `+ ${all.length - drafts.length} more pending — python run_engine.py queue`));
+    }
+  }
+
+  function renderLeads() {
+    const table = $("leads-table"); table.textContent = "";
+    const leads = (DATA.top_leads || []).slice(0, 20);
+    const thead = el("thead"), tr = el("tr");
+    for (const [h, cls] of [["Score", "num"], ["Product", ""], ["What they asked", ""],
+                            ["Source", ""], ["Channel", ""], ["Status", ""]]) {
+      const th = el("th", cls || null, h); tr.appendChild(th);
+    }
+    thead.appendChild(tr); table.appendChild(thead);
+    const tbody = el("tbody");
+    for (const l of leads) {
+      const row = el("tr");
+      const sc = el("td", "num"); sc.appendChild(el("span", "score-chip", String(l.score)));
+      row.appendChild(sc);
+      row.appendChild(el("td", null, productName(l.product_id)));
+      const title = el("td");
+      if (l.url) {
+        const a = el("a", null, l.title || "(untitled)");
+        a.href = l.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+        title.appendChild(a);
+      } else title.textContent = l.title || "(untitled)";
+      if (l.rationale) {
+        title.appendChild(el("div", "src", l.rationale));
+      }
+      row.appendChild(title);
+      row.appendChild(el("td", "src", l.source));
+      row.appendChild(el("td", "src", (l.channel || "").replace("_", " ")));
+      row.appendChild(el("td", "src", l.draft_status || "no draft"));
+      tbody.appendChild(row);
+    }
+    if (!leads.length) {
+      const row = el("tr"); const td = el("td", "empty", "No qualified leads yet.");
+      td.colSpan = 6; row.appendChild(td); tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+  }
+
+  // ── helpers ────────────────────────────────────────────────────────────────
+  function fillTable(container, headers, rows) {
+    container.textContent = "";
+    const table = el("table"), thead = el("thead"), tr = el("tr");
+    headers.forEach((h, i) => tr.appendChild(el("th", i > 0 ? "num" : null, h)));
+    thead.appendChild(tr); table.appendChild(thead);
+    const tbody = el("tbody");
+    for (const r of rows) {
+      const row = el("tr");
+      r.forEach((c, i) => row.appendChild(el("td", i > 0 ? "num" : null, String(c))));
+      tbody.appendChild(row);
+    }
+    table.appendChild(tbody); container.appendChild(table);
+  }
+  function niceTicks(max, count) {
+    const step = Math.pow(10, Math.floor(Math.log10(max / count)));
+    const err = max / count / step;
+    const mult = err >= 7.5 ? 10 : err >= 3.5 ? 5 : err >= 1.5 ? 2 : 1;
+    const s = mult * step;
+    const top = Math.ceil(max / s) * s;
+    const ticks = [];
+    for (let v = 0; v <= top; v += s) ticks.push(v);
+    return ticks;
+  }
+
+  // ── product & source aggregates ────────────────────────────────────────────
+  function render() {
+    const cur = dailyTotals(rangeDays);
+    const prevAll = dailyTotals(rangeDays * 2).slice(0, rangeDays);
+    renderKpis(cur, prevAll);
+    renderTrend(cur);
+    renderFunnel(cur);
+
+    const since = cur[0].date;
+    const perProduct = DATA.products.map(p => {
+      const rows = DATA.daily.filter(r => r.product_id === p.id && r.date >= since);
+      return [p.name, rows.reduce((a, r) => a + r.qualified, 0),
+              rows.reduce((a, r) => a + r.signals, 0) + " signals total"];
+    }).sort((a, b) => b[1] - a[1]);
+    renderBars("byproduct", perProduct, "Qualified leads by product");
+    fillTable($("byproduct-table"), ["Product", "Qualified"], perProduct.map(p => [p[0], p[1]]));
+
+    const bySource = (DATA.by_source || []).map(s =>
+      [s.source, s.signals, `${s.qualified} qualified`]);
+    renderBars("bysource", bySource, "Signals by source");
+    fillTable($("bysource-table"), ["Source", "Signals"], bySource.map(s => [s[0], s[1]]));
+
+    renderQueue();
+    renderLeads();
+  }
+
+  render();
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer); resizeTimer = setTimeout(render, 150);
+  });
+})();
+</script>
+</body>
+</html>

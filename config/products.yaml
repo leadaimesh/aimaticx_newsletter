@@ -1,0 +1,142 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# PRODUCT CATALOG — the engine sells everything in this file, nothing else.
+# (EHS is intentionally NOT here per owner instruction.)
+#
+# To add a new product: copy any block, edit the fields, commit. The engine
+# picks it up on the next daily run automatically. The more specific the
+# keywords / pain_phrases, the better the leads.
+#
+# TODO(Dan): replace the placeholder URLs and pricing with the real ones —
+# they get quoted verbatim in outreach drafts.
+# ─────────────────────────────────────────────────────────────────────────────
+
+products:
+  - id: doc2translate
+    name: Doc2Translate
+    priority: 1                      # 1 = highest; ties break toward priority
+    url: "https://doc2translate.com"   # TODO(Dan): confirm real URL
+    tagline: "Translate entire documents in minutes — layout, formatting and all."
+    description: >
+      AI-powered document translation that preserves the original layout and
+      formatting. Upload a PDF, Word doc, PowerPoint or spreadsheet and get a
+      professionally translated copy back in minutes instead of days, at a
+      fraction of agency prices.
+    value_props:
+      - Keeps original formatting, tables and images intact
+      - Minutes instead of the days a human agency takes
+      - Far cheaper than professional translation services
+      - Supports major file types (PDF, DOCX, PPTX, XLSX)
+    pricing: "Pay-as-you-go per document; free preview"   # TODO(Dan): real pricing
+    ideal_customer: >
+      Small businesses, immigration applicants, students, legal/HR teams and
+      freelancers who need documents translated quickly without losing
+      formatting — people who find agencies too slow/expensive and copy-paste
+      into Google Translate too messy.
+    # Phrases people use when they NEED this (drives Reddit/HN/Google discovery)
+    pain_phrases:
+      - "translate a pdf and keep formatting"
+      - "translate word document to spanish"
+      - "document translation service too expensive"
+      - "how to translate a contract"
+      - "translate pdf without losing layout"
+      - "certified translation cheaper alternative"
+    keywords:
+      - document translation
+      - translate pdf
+      - translate docx
+    subreddits:
+      - translator
+      - languagelearning
+      - immigration
+      - smallbusiness
+      - freelance
+    negative_keywords:            # skip signals containing these
+      - hiring
+      - job posting
+
+  - id: yt2translate
+    name: YT2Translate
+    priority: 2
+    url: "https://yt2translate.com"    # TODO(Dan): confirm real URL
+    tagline: "Turn any YouTube video into translated subtitles, transcripts and dubs."
+    description: >
+      Converts YouTube videos into accurate transcripts, translated subtitles
+      and voice-overs so creators can reach global audiences, and viewers can
+      understand content in any language.
+    value_props:
+      - Accurate AI transcription + translation in one step
+      - Subtitle files (SRT/VTT) ready to upload back to YouTube
+      - Grow international watch time without re-recording
+    pricing: "Free tier; paid plans per video minute"     # TODO(Dan): real pricing
+    ideal_customer: >
+      YouTube creators trying to grow international audiences, educators
+      localizing course content, and marketers repurposing video for new
+      markets.
+    pain_phrases:
+      - "translate youtube video subtitles"
+      - "auto generate subtitles another language"
+      - "dub my youtube videos"
+      - "grow youtube channel international audience"
+      - "srt translation tool"
+    keywords:
+      - youtube translation
+      - subtitle translation
+      - video dubbing
+    subreddits:
+      - NewTubers
+      - PartneredYoutube
+      - youtubers
+      - videography
+      - letsplay
+    negative_keywords:
+      - copyright strike
+
+  - id: aimaticx
+    name: AiMaticX
+    priority: 3
+    url: "https://aimaticx.com"        # TODO(Dan): confirm real URL
+    tagline: "AI automation and insights for small businesses — delivered as a newsletter and done-for-you systems."
+    description: >
+      AiMaticX helps small businesses put AI to work: a practical AI newsletter
+      plus done-for-you automation (lead gen, content, workflows) so owners get
+      the benefits of AI without hiring a team.
+    value_props:
+      - Practical AI playbooks written for non-technical owners
+      - Done-for-you automations that save hours every week
+      - One place to keep up with AI that actually matters for business
+    pricing: "Free newsletter; automation packages quoted per project"  # TODO(Dan)
+    ideal_customer: >
+      Small business owners, solo founders and coaches who know AI could help
+      them but don't have time to figure it out themselves.
+    pain_phrases:
+      - "how to use ai in my small business"
+      - "automate lead generation small business"
+      - "ai newsletter for business owners"
+      - "too busy to keep up with ai tools"
+      - "automate my workflow with ai"
+    keywords:
+      - ai automation
+      - small business ai
+      - business automation
+    subreddits:
+      - smallbusiness
+      - Entrepreneur
+      - solopreneur
+      - sweatystartup
+      - marketing
+    negative_keywords: []
+
+# ── Add your newest projects below (same shape). ────────────────────────────
+# - id: my_new_project
+#   name: My New Project
+#   priority: 4
+#   url: "https://..."
+#   tagline: "..."
+#   description: "..."
+#   value_props: ["..."]
+#   pricing: "..."
+#   ideal_customer: "..."
+#   pain_phrases: ["..."]
+#   keywords: ["..."]
+#   subreddits: ["..."]
+#   negative_keywords: []

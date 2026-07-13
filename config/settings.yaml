@@ -1,0 +1,42 @@
+# Engine behavior. Safe defaults — tune from here, everything is optional.
+
+discovery:
+  # How far back sources look on each daily run.
+  lookback_hours: 26            # small overlap so nothing falls in the cracks
+  max_signals_per_product_per_day: 40
+  sources:
+    reddit: true                # public JSON search, no API key needed
+    hackernews: true            # Algolia API, no key needed
+    google: true                # needs SERPER_API_KEY, silently skipped without it
+    rss: true
+  # Optional extra RSS feeds to scan for intent (blog comments, niche forums…)
+  rss_feeds: []
+
+scoring:
+  # Signals scoring at/above this become "qualified leads" and get outreach drafts.
+  qualify_threshold: 60
+  # Signals scored per Claude call (batching keeps cost down).
+  batch_size: 10
+  # Skip scoring signals older than this many days (stale threads convert poorly).
+  max_signal_age_days: 7
+
+outreach:
+  # Forum replies are always draft-only (you post them yourself — authentic,
+  # and it respects Reddit/HN rules). Emails can be automated via SEND_ENABLED.
+  max_drafts_per_day: 25
+  # Email sequence: first touch + follow-ups (days after previous touch).
+  followup_days: [3, 6]
+  max_touches: 3
+
+email:
+  # Only used when RESEND_API_KEY + FROM_EMAIL are set and SEND_ENABLED=true.
+  send_window_utc: [13, 21]     # only send between these UTC hours (business hours US)
+  unsubscribe_footer: >
+    You're receiving this one-time note because you publicly asked about this
+    topic. Reply "no thanks" and you won't hear from me again.
+
+digest:
+  # Daily owner digest (emailed if email is configured; always written to
+  # data/digest.md either way).
+  enabled: true
+  top_leads: 10

@@ -1,0 +1,1916 @@
+{
+ "generated_at": "2026-07-13T19:56:35Z",
+ "demo": true,
+ "window_days": 90,
+ "products": [
+  {
+   "id": "doc2translate",
+   "name": "Doc2Translate"
+  },
+  {
+   "id": "yt2translate",
+   "name": "YT2Translate"
+  },
+  {
+   "id": "aimaticx",
+   "name": "AiMaticX"
+  }
+ ],
+ "daily": [
+  {
+   "date": "2026-06-08",
+   "product_id": "aimaticx",
+   "signals": 3,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-08",
+   "product_id": "doc2translate",
+   "signals": 13,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-08",
+   "product_id": "yt2translate",
+   "signals": 10,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-09",
+   "product_id": "aimaticx",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-09",
+   "product_id": "doc2translate",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-09",
+   "product_id": "yt2translate",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-10",
+   "product_id": "aimaticx",
+   "signals": 7,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-10",
+   "product_id": "doc2translate",
+   "signals": 3,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-10",
+   "product_id": "yt2translate",
+   "signals": 9,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-11",
+   "product_id": "aimaticx",
+   "signals": 7,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-11",
+   "product_id": "doc2translate",
+   "signals": 13,
+   "qualified": 2,
+   "drafted": 2,
+   "contacted": 2,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-11",
+   "product_id": "yt2translate",
+   "signals": 12,
+   "qualified": 1,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-12",
+   "product_id": "aimaticx",
+   "signals": 11,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-12",
+   "product_id": "doc2translate",
+   "signals": 11,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-12",
+   "product_id": "yt2translate",
+   "signals": 6,
+   "qualified": 1,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-13",
+   "product_id": "aimaticx",
+   "signals": 9,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-13",
+   "product_id": "doc2translate",
+   "signals": 8,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-13",
+   "product_id": "yt2translate",
+   "signals": 12,
+   "qualified": 2,
+   "drafted": 2,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-14",
+   "product_id": "aimaticx",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-14",
+   "product_id": "doc2translate",
+   "signals": 3,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-14",
+   "product_id": "yt2translate",
+   "signals": 8,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-15",
+   "product_id": "aimaticx",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-15",
+   "product_id": "doc2translate",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-15",
+   "product_id": "yt2translate",
+   "signals": 13,
+   "qualified": 2,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-16",
+   "product_id": "aimaticx",
+   "signals": 7,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-16",
+   "product_id": "doc2translate",
+   "signals": 7,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-16",
+   "product_id": "yt2translate",
+   "signals": 3,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-17",
+   "product_id": "aimaticx",
+   "signals": 7,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-17",
+   "product_id": "doc2translate",
+   "signals": 6,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-17",
+   "product_id": "yt2translate",
+   "signals": 10,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-18",
+   "product_id": "aimaticx",
+   "signals": 6,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-18",
+   "product_id": "doc2translate",
+   "signals": 7,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-18",
+   "product_id": "yt2translate",
+   "signals": 7,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-19",
+   "product_id": "aimaticx",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-19",
+   "product_id": "doc2translate",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-19",
+   "product_id": "yt2translate",
+   "signals": 13,
+   "qualified": 2,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-20",
+   "product_id": "aimaticx",
+   "signals": 12,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-20",
+   "product_id": "doc2translate",
+   "signals": 7,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-20",
+   "product_id": "yt2translate",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-21",
+   "product_id": "aimaticx",
+   "signals": 6,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-21",
+   "product_id": "doc2translate",
+   "signals": 10,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-21",
+   "product_id": "yt2translate",
+   "signals": 14,
+   "qualified": 2,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-22",
+   "product_id": "aimaticx",
+   "signals": 7,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-22",
+   "product_id": "doc2translate",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-22",
+   "product_id": "yt2translate",
+   "signals": 7,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-23",
+   "product_id": "aimaticx",
+   "signals": 6,
+   "qualified": 1,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-23",
+   "product_id": "doc2translate",
+   "signals": 3,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-23",
+   "product_id": "yt2translate",
+   "signals": 14,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-24",
+   "product_id": "aimaticx",
+   "signals": 12,
+   "qualified": 2,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-24",
+   "product_id": "doc2translate",
+   "signals": 11,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-24",
+   "product_id": "yt2translate",
+   "signals": 12,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-25",
+   "product_id": "aimaticx",
+   "signals": 6,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-25",
+   "product_id": "doc2translate",
+   "signals": 3,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-25",
+   "product_id": "yt2translate",
+   "signals": 11,
+   "qualified": 2,
+   "drafted": 2,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-26",
+   "product_id": "aimaticx",
+   "signals": 8,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-26",
+   "product_id": "doc2translate",
+   "signals": 7,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-26",
+   "product_id": "yt2translate",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-27",
+   "product_id": "aimaticx",
+   "signals": 14,
+   "qualified": 2,
+   "drafted": 2,
+   "contacted": 2,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-27",
+   "product_id": "doc2translate",
+   "signals": 14,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-06-27",
+   "product_id": "yt2translate",
+   "signals": 8,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-28",
+   "product_id": "aimaticx",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-28",
+   "product_id": "doc2translate",
+   "signals": 8,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-28",
+   "product_id": "yt2translate",
+   "signals": 8,
+   "qualified": 1,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-29",
+   "product_id": "aimaticx",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-29",
+   "product_id": "doc2translate",
+   "signals": 3,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-29",
+   "product_id": "yt2translate",
+   "signals": 12,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-30",
+   "product_id": "aimaticx",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-30",
+   "product_id": "doc2translate",
+   "signals": 13,
+   "qualified": 2,
+   "drafted": 2,
+   "contacted": 2,
+   "replies": 0
+  },
+  {
+   "date": "2026-06-30",
+   "product_id": "yt2translate",
+   "signals": 10,
+   "qualified": 1,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-01",
+   "product_id": "aimaticx",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-01",
+   "product_id": "doc2translate",
+   "signals": 8,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-01",
+   "product_id": "yt2translate",
+   "signals": 8,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-02",
+   "product_id": "aimaticx",
+   "signals": 3,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-02",
+   "product_id": "doc2translate",
+   "signals": 10,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-02",
+   "product_id": "yt2translate",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-03",
+   "product_id": "aimaticx",
+   "signals": 9,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-03",
+   "product_id": "doc2translate",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-03",
+   "product_id": "yt2translate",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-04",
+   "product_id": "aimaticx",
+   "signals": 8,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-07-04",
+   "product_id": "doc2translate",
+   "signals": 5,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 1
+  },
+  {
+   "date": "2026-07-04",
+   "product_id": "yt2translate",
+   "signals": 14,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-05",
+   "product_id": "aimaticx",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-05",
+   "product_id": "doc2translate",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-07-05",
+   "product_id": "yt2translate",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-06",
+   "product_id": "aimaticx",
+   "signals": 11,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-06",
+   "product_id": "doc2translate",
+   "signals": 9,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-06",
+   "product_id": "yt2translate",
+   "signals": 3,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-07",
+   "product_id": "aimaticx",
+   "signals": 11,
+   "qualified": 2,
+   "drafted": 2,
+   "contacted": 1,
+   "replies": 1
+  },
+  {
+   "date": "2026-07-07",
+   "product_id": "doc2translate",
+   "signals": 9,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-07",
+   "product_id": "yt2translate",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-08",
+   "product_id": "aimaticx",
+   "signals": 8,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-08",
+   "product_id": "doc2translate",
+   "signals": 12,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-08",
+   "product_id": "yt2translate",
+   "signals": 5,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-09",
+   "product_id": "aimaticx",
+   "signals": 7,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 1
+  },
+  {
+   "date": "2026-07-09",
+   "product_id": "doc2translate",
+   "signals": 7,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-09",
+   "product_id": "yt2translate",
+   "signals": 9,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-10",
+   "product_id": "aimaticx",
+   "signals": 13,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-10",
+   "product_id": "doc2translate",
+   "signals": 7,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-10",
+   "product_id": "yt2translate",
+   "signals": 11,
+   "qualified": 2,
+   "drafted": 2,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-11",
+   "product_id": "aimaticx",
+   "signals": 8,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-11",
+   "product_id": "doc2translate",
+   "signals": 14,
+   "qualified": 1,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-11",
+   "product_id": "yt2translate",
+   "signals": 4,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-12",
+   "product_id": "aimaticx",
+   "signals": 10,
+   "qualified": 2,
+   "drafted": 2,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-12",
+   "product_id": "doc2translate",
+   "signals": 13,
+   "qualified": 1,
+   "drafted": 1,
+   "contacted": 1,
+   "replies": 0
+  },
+  {
+   "date": "2026-07-12",
+   "product_id": "yt2translate",
+   "signals": 3,
+   "qualified": 0,
+   "drafted": 0,
+   "contacted": 0,
+   "replies": 0
+  }
+ ],
+ "top_leads": [
+  {
+   "id": 483,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "Dubbing my tutorials into Spanish and Portuguese \u2014 worth it?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 93,
+   "channel": "reddit_reply",
+   "posted_at": "2026-06-28T04:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": null
+  },
+  {
+   "id": 402,
+   "product_id": "yt2translate",
+   "source": "hackernews",
+   "title": "Show HN: I analyzed 1M YouTube channels \u2014 translated subs correlate with 2.3x sub growth",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 93,
+   "channel": "email",
+   "posted_at": "2026-06-25T10:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 388,
+   "product_id": "aimaticx",
+   "source": "reddit",
+   "title": "What AI tools are actually worth it for a 3-person business?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 93,
+   "channel": "reddit_reply",
+   "posted_at": "2026-06-24T07:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": null
+  },
+  {
+   "id": 764,
+   "product_id": "doc2translate",
+   "source": "hackernews",
+   "title": "Translating product spec sheets (PPTX) for EU distributors",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 92,
+   "channel": "hn_reply",
+   "posted_at": "2026-07-11T03:56:35Z",
+   "rationale": "Clear timeline pressure and active evaluation of alternatives.",
+   "draft_status": null
+  },
+  {
+   "id": 807,
+   "product_id": "aimaticx",
+   "source": "reddit",
+   "title": "How are you automating lead follow-up?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 91,
+   "channel": "hn_reply",
+   "posted_at": "2026-07-12T04:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 60,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Best way to translate Word docs for immigration paperwork?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 91,
+   "channel": "reddit_reply",
+   "posted_at": "2026-06-11T19:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 717,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "How do you all handle subtitles in other languages?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 90,
+   "channel": "hn_reply",
+   "posted_at": "2026-07-09T05:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 550,
+   "product_id": "yt2translate",
+   "source": "hackernews",
+   "title": "Show HN: I analyzed 1M YouTube channels \u2014 translated subs correlate with 2.3x sub growth",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 90,
+   "channel": "email",
+   "posted_at": "2026-07-01T05:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 344,
+   "product_id": "yt2translate",
+   "source": "hackernews",
+   "title": "Show HN: I analyzed 1M YouTube channels \u2014 translated subs correlate with 2.3x sub growth",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 89,
+   "channel": "reddit_reply",
+   "posted_at": "2026-06-23T02:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 73,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "How do you all handle subtitles in other languages?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 89,
+   "channel": "reddit_reply",
+   "posted_at": "2026-06-11T10:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": null
+  },
+  {
+   "id": 403,
+   "product_id": "yt2translate",
+   "source": "hackernews",
+   "title": "Show HN: I analyzed 1M YouTube channels \u2014 translated subs correlate with 2.3x sub growth",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 88,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-24T23:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 187,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Best way to translate Word docs for immigration paperwork?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 88,
+   "channel": "email",
+   "posted_at": "2026-06-16T11:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 92,
+   "product_id": "doc2translate",
+   "source": "hackernews",
+   "title": "Translating product spec sheets (PPTX) for EU distributors",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 88,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-12T14:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 44,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "Dubbing my tutorials into Spanish and Portuguese \u2014 worth it?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 88,
+   "channel": "email",
+   "posted_at": "2026-06-10T18:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 252,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "Dubbing my tutorials into Spanish and Portuguese \u2014 worth it?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 87,
+   "channel": "email",
+   "posted_at": "2026-06-19T16:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 674,
+   "product_id": "aimaticx",
+   "source": "hackernews",
+   "title": "Ask HN: Solo founders \u2014 what did you automate first?",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 86,
+   "channel": "hn_reply",
+   "posted_at": "2026-07-07T04:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 515,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Need to translate a 40-page PDF contract to Spanish, keep formatting?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 86,
+   "channel": "email",
+   "posted_at": "2026-06-30T10:56:35Z",
+   "rationale": "Clear timeline pressure and active evaluation of alternatives.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 120,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Best way to translate Word docs for immigration paperwork?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 86,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-13T11:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 128,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "Dubbing my tutorials into Spanish and Portuguese \u2014 worth it?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 86,
+   "channel": "email",
+   "posted_at": "2026-06-13T13:56:35Z",
+   "rationale": "Clear timeline pressure and active evaluation of alternatives.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 649,
+   "product_id": "aimaticx",
+   "source": "reddit",
+   "title": "How are you automating lead follow-up?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 85,
+   "channel": "email",
+   "posted_at": "2026-07-06T17:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 281,
+   "product_id": "aimaticx",
+   "source": "reddit",
+   "title": "What AI tools are actually worth it for a 3-person business?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 85,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-20T16:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 14,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "How do you all handle subtitles in other languages?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 85,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-08T08:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 498,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "Dubbing my tutorials into Spanish and Portuguese \u2014 worth it?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 84,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-29T17:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 334,
+   "product_id": "aimaticx",
+   "source": "reddit",
+   "title": "What AI tools are actually worth it for a 3-person business?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 84,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-22T12:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 675,
+   "product_id": "aimaticx",
+   "source": "reddit",
+   "title": "How are you automating lead follow-up?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 82,
+   "channel": "hn_reply",
+   "posted_at": "2026-07-07T14:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 637,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Best way to translate Word docs for immigration paperwork?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 82,
+   "channel": "reddit_reply",
+   "posted_at": "2026-07-06T01:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 660,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Best way to translate Word docs for immigration paperwork?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 81,
+   "channel": "reddit_reply",
+   "posted_at": "2026-07-07T19:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 597,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Need to translate a 40-page PDF contract to Spanish, keep formatting?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 81,
+   "channel": "hn_reply",
+   "posted_at": "2026-07-04T17:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 562,
+   "product_id": "doc2translate",
+   "source": "hackernews",
+   "title": "Translating product spec sheets (PPTX) for EU distributors",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 81,
+   "channel": "email",
+   "posted_at": "2026-07-02T17:56:35Z",
+   "rationale": "Clear timeline pressure and active evaluation of alternatives.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 304,
+   "product_id": "yt2translate",
+   "source": "hackernews",
+   "title": "Show HN: I analyzed 1M YouTube channels \u2014 translated subs correlate with 2.3x sub growth",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 81,
+   "channel": "email",
+   "posted_at": "2026-06-21T07:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 358,
+   "product_id": "aimaticx",
+   "source": "hackernews",
+   "title": "Ask HN: Solo founders \u2014 what did you automate first?",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 80,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-23T13:56:35Z",
+   "rationale": "Clear timeline pressure and active evaluation of alternatives.",
+   "draft_status": null
+  },
+  {
+   "id": 806,
+   "product_id": "aimaticx",
+   "source": "hackernews",
+   "title": "Ask HN: Solo founders \u2014 what did you automate first?",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 79,
+   "channel": "reddit_reply",
+   "posted_at": "2026-07-12T08:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 419,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Need to translate a 40-page PDF contract to Spanish, keep formatting?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 79,
+   "channel": "reddit_reply",
+   "posted_at": "2026-06-26T00:56:35Z",
+   "rationale": "Clear timeline pressure and active evaluation of alternatives.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 413,
+   "product_id": "aimaticx",
+   "source": "hackernews",
+   "title": "Ask HN: Solo founders \u2014 what did you automate first?",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 79,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-25T12:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 171,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "How do you all handle subtitles in other languages?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 79,
+   "channel": "email",
+   "posted_at": "2026-06-15T06:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": null
+  },
+  {
+   "id": 1,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Need to translate a 40-page PDF contract to Spanish, keep formatting?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 79,
+   "channel": "reddit_reply",
+   "posted_at": "2026-06-08T15:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 220,
+   "product_id": "aimaticx",
+   "source": "reddit",
+   "title": "How are you automating lead follow-up?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 78,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-17T09:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 61,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Need to translate a 40-page PDF contract to Spanish, keep formatting?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 78,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-11T17:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 140,
+   "product_id": "aimaticx",
+   "source": "hackernews",
+   "title": "Ask HN: Solo founders \u2014 what did you automate first?",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 77,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-12T23:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 251,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "Dubbing my tutorials into Spanish and Portuguese \u2014 worth it?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 75,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-19T12:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": null
+  },
+  {
+   "id": 528,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "Dubbing my tutorials into Spanish and Portuguese \u2014 worth it?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 74,
+   "channel": "reddit_reply",
+   "posted_at": "2026-06-30T15:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": null
+  },
+  {
+   "id": 387,
+   "product_id": "aimaticx",
+   "source": "reddit",
+   "title": "What AI tools are actually worth it for a 3-person business?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 74,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-24T03:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": null
+  },
+  {
+   "id": 210,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "Dubbing my tutorials into Spanish and Portuguese \u2014 worth it?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 74,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-17T16:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 516,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Best way to translate Word docs for immigration paperwork?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 71,
+   "channel": "email",
+   "posted_at": "2026-06-29T23:56:35Z",
+   "rationale": "Recurring workflow pain with volume \u2014 high LTV potential.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 303,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "Dubbing my tutorials into Spanish and Portuguese \u2014 worth it?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 71,
+   "channel": "reddit_reply",
+   "posted_at": "2026-06-21T01:56:35Z",
+   "rationale": "Clear timeline pressure and active evaluation of alternatives.",
+   "draft_status": null
+  },
+  {
+   "id": 109,
+   "product_id": "aimaticx",
+   "source": "reddit",
+   "title": "What AI tools are actually worth it for a 3-person business?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 71,
+   "channel": "hn_reply",
+   "posted_at": "2026-06-12T15:56:35Z",
+   "rationale": "Clear timeline pressure and active evaluation of alternatives.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 751,
+   "product_id": "aimaticx",
+   "source": "hackernews",
+   "title": "Ask HN: Solo founders \u2014 what did you automate first?",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "score": 70,
+   "channel": "reddit_reply",
+   "posted_at": "2026-07-10T00:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "pending"
+  },
+  {
+   "id": 685,
+   "product_id": "doc2translate",
+   "source": "reddit",
+   "title": "Best way to translate Word docs for immigration paperwork?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 70,
+   "channel": "email",
+   "posted_at": "2026-07-08T14:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 317,
+   "product_id": "aimaticx",
+   "source": "reddit",
+   "title": "How are you automating lead follow-up?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 70,
+   "channel": "reddit_reply",
+   "posted_at": "2026-06-20T23:56:35Z",
+   "rationale": "Strong ICP fit; pain stated concretely but no explicit ask yet.",
+   "draft_status": "sent"
+  },
+  {
+   "id": 602,
+   "product_id": "yt2translate",
+   "source": "reddit",
+   "title": "Dubbing my tutorials into Spanish and Portuguese \u2014 worth it?",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "score": 69,
+   "channel": "email",
+   "posted_at": "2026-07-04T15:56:35Z",
+   "rationale": "Explicitly asking for a tool recommendation with a stated budget pain.",
+   "draft_status": "sent"
+  }
+ ],
+ "pending_drafts": [
+  {
+   "id": 25,
+   "signal_id": 402,
+   "product_id": "yt2translate",
+   "kind": "email",
+   "touch": 1,
+   "subject": "Saw your post about document translation",
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "source": "hackernews",
+   "score": 93,
+   "created_at": "2026-06-25T19:56:35Z"
+  },
+  {
+   "id": 55,
+   "signal_id": 807,
+   "product_id": "aimaticx",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 91,
+   "created_at": "2026-07-12T19:56:35Z"
+  },
+  {
+   "id": 37,
+   "signal_id": 550,
+   "product_id": "yt2translate",
+   "kind": "email",
+   "touch": 1,
+   "subject": "Saw your post about document translation",
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "source": "hackernews",
+   "score": 90,
+   "created_at": "2026-07-01T19:56:35Z"
+  },
+  {
+   "id": 26,
+   "signal_id": 403,
+   "product_id": "yt2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "source": "hackernews",
+   "score": 88,
+   "created_at": "2026-06-25T19:56:35Z"
+  },
+  {
+   "id": 6,
+   "signal_id": 92,
+   "product_id": "doc2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "source": "hackernews",
+   "score": 88,
+   "created_at": "2026-06-12T19:56:35Z"
+  },
+  {
+   "id": 3,
+   "signal_id": 44,
+   "product_id": "yt2translate",
+   "kind": "email",
+   "touch": 1,
+   "subject": "Saw your post about document translation",
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 88,
+   "created_at": "2026-06-10T19:56:35Z"
+  },
+  {
+   "id": 45,
+   "signal_id": 674,
+   "product_id": "aimaticx",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "source": "hackernews",
+   "score": 86,
+   "created_at": "2026-07-07T19:56:35Z"
+  },
+  {
+   "id": 8,
+   "signal_id": 120,
+   "product_id": "doc2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 86,
+   "created_at": "2026-06-13T19:56:35Z"
+  },
+  {
+   "id": 9,
+   "signal_id": 128,
+   "product_id": "yt2translate",
+   "kind": "email",
+   "touch": 1,
+   "subject": "Saw your post about document translation",
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 86,
+   "created_at": "2026-06-13T19:56:35Z"
+  },
+  {
+   "id": 43,
+   "signal_id": 649,
+   "product_id": "aimaticx",
+   "kind": "email",
+   "touch": 1,
+   "subject": "Saw your post about document translation",
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 85,
+   "created_at": "2026-07-06T19:56:35Z"
+  },
+  {
+   "id": 2,
+   "signal_id": 14,
+   "product_id": "yt2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 85,
+   "created_at": "2026-06-08T19:56:35Z"
+  },
+  {
+   "id": 21,
+   "signal_id": 334,
+   "product_id": "aimaticx",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 84,
+   "created_at": "2026-06-22T19:56:35Z"
+  },
+  {
+   "id": 42,
+   "signal_id": 637,
+   "product_id": "doc2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 82,
+   "created_at": "2026-07-06T19:56:35Z"
+  },
+  {
+   "id": 44,
+   "signal_id": 660,
+   "product_id": "doc2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 81,
+   "created_at": "2026-07-07T19:56:35Z"
+  },
+  {
+   "id": 28,
+   "signal_id": 419,
+   "product_id": "doc2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 79,
+   "created_at": "2026-06-26T19:56:35Z"
+  },
+  {
+   "id": 27,
+   "signal_id": 413,
+   "product_id": "aimaticx",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "source": "hackernews",
+   "score": 79,
+   "created_at": "2026-06-25T19:56:35Z"
+  },
+  {
+   "id": 1,
+   "signal_id": 1,
+   "product_id": "doc2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 79,
+   "created_at": "2026-06-08T19:56:35Z"
+  },
+  {
+   "id": 14,
+   "signal_id": 210,
+   "product_id": "yt2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 74,
+   "created_at": "2026-06-17T19:56:35Z"
+  },
+  {
+   "id": 52,
+   "signal_id": 751,
+   "product_id": "aimaticx",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "source": "hackernews",
+   "score": 70,
+   "created_at": "2026-07-10T19:56:35Z"
+  },
+  {
+   "id": 29,
+   "signal_id": 439,
+   "product_id": "doc2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 69,
+   "created_at": "2026-06-27T19:56:35Z"
+  },
+  {
+   "id": 36,
+   "signal_id": 542,
+   "product_id": "doc2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 67,
+   "created_at": "2026-07-01T19:56:35Z"
+  },
+  {
+   "id": 23,
+   "signal_id": 364,
+   "product_id": "doc2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 67,
+   "created_at": "2026-06-24T19:56:35Z"
+  },
+  {
+   "id": 50,
+   "signal_id": 740,
+   "product_id": "yt2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "source": "hackernews",
+   "score": 65,
+   "created_at": "2026-07-10T19:56:35Z"
+  },
+  {
+   "id": 24,
+   "signal_id": 375,
+   "product_id": "yt2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://www.reddit.com/r/smallbusiness/",
+   "source": "reddit",
+   "score": 63,
+   "created_at": "2026-06-24T19:56:35Z"
+  },
+  {
+   "id": 12,
+   "signal_id": 170,
+   "product_id": "yt2translate",
+   "kind": "reply",
+   "touch": 1,
+   "subject": null,
+   "body": "Hey \u2014 saw your post about translating that contract while keeping the layout. One tip that helps regardless of tool: export to DOCX first, translation engines handle it far better than raw PDF. I actually built Doc2Translate for exactly this \u2014 it keeps tables and formatting intact. Happy to run your first doc free if you want to sanity-check it.",
+   "url": "https://news.ycombinator.com/item?id=demo",
+   "source": "hackernews",
+   "score": 63,
+   "created_at": "2026-06-15T19:56:35Z"
+  }
+ ],
+ "by_source": [
+  {
+   "source": "reddit",
+   "signals": 545,
+   "qualified": 47
+  },
+  {
+   "source": "hackernews",
+   "signals": 270,
+   "qualified": 19
+  }
+ ],
+ "benchmarks": {
+  "reply_rate_good": 0.05,
+  "reply_to_trial_good": 0.25
+ },
+ "autopilot": {
+  "send_enabled": false,
+  "email_configured": false,
+  "daily_email_cap": 20
+ }
+}
