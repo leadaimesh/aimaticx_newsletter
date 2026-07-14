@@ -67,8 +67,21 @@ every single day and from tuning `pain_phrases` toward what actually qualifies.
 
 - **Week 1–2 (draft-only)**: review drafts daily, dismiss bad ones. Tune
   `pain_phrases` in products.yaml toward whatever produced 80+ scores.
-- **Week 3+**: set up the outreach domain + Resend, flip `SEND_ENABLED=true`
-  with the cap at 10–20/day.
+- **Week 3+ (low volume)**: set up the outreach domain + Resend, flip
+  `SEND_ENABLED=true` with the cap at 10–20/day.
+- **When volume justifies it (Instantly mode)**: set `EMAIL_PROVIDER=instantly`
+  with `INSTANTLY_API_KEY` + `INSTANTLY_CAMPAIGN_ID`. The engine keeps doing
+  what it's uniquely good at (finding intent signals, scoring, writing the
+  grounded personalization) and hands each lead to an Instantly campaign;
+  Instantly does what IT is good at: inbox rotation across 2–3 warmed
+  inboxes, humanized send times, automatic warmup, its own follow-up steps,
+  and reply detection that halts the sequence the moment someone answers.
+  Set the campaign's email body to {{personalization}} and its subject to
+  {{subject_line}}; the engine fills both per lead. Build the campaign's
+  follow-up steps inside Instantly (the engine disables its internal
+  follow-ups in this mode so nobody ever gets two sequences). Keep the daily
+  cap; it now caps leads handed to Instantly per day. Sync unsubscribes back
+  with `run_engine.py suppress <email>` (or wire Instantly's webhooks later).
 - **When email volume justifies it**: add contact enrichment (a "waterfall"
   of email-finder APIs — Hunter → Prospeo → Dropcontact; one provider finds
   40–60% of addresses, a 3-provider waterfall reaches 85–95%). Slot it in

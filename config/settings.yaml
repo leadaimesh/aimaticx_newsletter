@@ -29,10 +29,16 @@ outreach:
   max_touches: 3
 
 email:
-  # Only used when RESEND_API_KEY + FROM_EMAIL are set and SEND_ENABLED=true.
+  # Only used when a provider is configured and SEND_ENABLED=true.
   # Window covers late EU morning through US afternoon so both audiences get
   # emails during their business hours (Doc2Translate's niche is European).
+  # (Resend mode only; Instantly schedules sends itself per its campaign.)
   send_window_utc: [8, 21]
+  # Optional: route each product's leads to its own Instantly campaign.
+  # Falls back to INSTANTLY_CAMPAIGN_ID for products not listed.
+  instantly_campaigns: {}
+  #   doc2translate: "00000000-0000-0000-0000-000000000000"
+  #   yt2translate:  "00000000-0000-0000-0000-000000000000"
   unsubscribe_footer: >
     You're receiving this one-time note because you publicly asked about this
     topic. Reply "no thanks" and you won't hear from me again.

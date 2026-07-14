@@ -48,13 +48,26 @@ class Config:
     owner_email: str | None = None
     send_enabled: bool = False
     daily_email_cap: int = 20
+    email_provider: str = "resend"        # resend | instantly
+    instantly_api_key: str | None = None
+    instantly_campaign_id: str | None = None
 
     def product(self, product_id: str) -> Product | None:
         return next((p for p in self.products if p.id == product_id), None)
 
     @property
     def email_configured(self) -> bool:
+        """Resend transactional sending (digest + resend-provider outreach)."""
         return bool(self.resend_api_key and self.from_email)
+
+    @property
+    def instantly_configured(self) -> bool:
+        return bool(self.instantly_api_key and self.instantly_campaign_id)
+
+    def instantly_campaign_for(self, product_id: str) -> str | None:
+        """Per-product campaign from settings.yaml, else the default campaign."""
+        mapping = self.settings.get("email", {}).get("instantly_campaigns", {}) or {}
+        return mapping.get(product_id) or self.instantly_campaign_id
 
 
 def _load_yaml(path: Path) -> dict:
@@ -84,4 +97,7 @@ def load_config() -> Config:
         owner_email=os.environ.get("OWNER_EMAIL", "coachdan75@gmail.com"),
         send_enabled=os.environ.get("SEND_ENABLED", "false").lower() == "true",
         daily_email_cap=int(os.environ.get("DAILY_EMAIL_CAP", "20")),
+        email_provider=os.environ.get("EMAIL_PROVIDER", "resend").lower(),
+        instantly_api_key=os.environ.get("INSTANTLY_API_KEY"),
+        instantly_campaign_id=os.environ.get("INSTANTLY_CAMPAIGN_ID"),
     )

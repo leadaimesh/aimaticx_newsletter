@@ -1,11 +1,19 @@
-"""Email sending via Resend, with the safety rails that keep deliverability alive:
+"""Email sending, with the safety rails that keep deliverability alive.
 
-- Nothing sends unless SEND_ENABLED=true AND Resend is configured.
-- Hard daily cap (DAILY_EMAIL_CAP), send-window hours, suppression check.
-- 3-touch sequence max; follow-ups are drafted lazily when due (day 0/3/10-style
-  spacing from settings.yaml) and stop instantly for suppressed contacts.
-- Every send is logged; a bounce/complaint should be added to suppression via
-  `python run_engine.py suppress <email> --reason bounced`.
+Two providers, chosen by EMAIL_PROVIDER:
+
+- "resend" (default): the engine sends directly via the Resend API and runs
+  its own 3-touch follow-up sequence. Good for low volume from one address.
+- "instantly": the engine HANDS OFF each qualified lead to an Instantly
+  campaign (with the personalized draft as the {{personalization}} variable).
+  Instantly then owns sending: inbox rotation, warmup, humanized timing, its
+  own follow-up steps, and reply detection that halts the sequence. Internal
+  follow-ups are disabled in this mode so leads never get two sequences.
+
+Shared rails in both modes: nothing moves unless SEND_ENABLED=true, hard
+daily cap, send-window hours, suppression checked before every send/handoff.
+A bounce/complaint should be added to suppression via
+`python run_engine.py suppress <email> --reason bounced`.
 """
 
 from __future__ import annotations
@@ -22,6 +30,9 @@ from .db import bump_metric, emails_sent_today, is_suppressed, log_event, now_is
 
 def process_email_queue(conn: sqlite3.Connection, cfg: Config, ai: AI) -> dict:
     stats = {"sent": 0, "followups_drafted": 0, "blocked": 0}
+
+    if cfg.email_provider == "instantly":
+        return _process_instantly(conn, cfg, stats)
 
     _draft_due_followups(conn, cfg, ai, stats)
 
@@ -67,6 +78,84 @@ def process_email_queue(conn: sqlite3.Connection, cfg: Config, ai: AI) -> dict:
             log_event(conn, "send_error", f"draft {draft['id']} to {draft['to_email']}")
 
     return stats
+
+
+def _process_instantly(conn: sqlite3.Connection, cfg: Config, stats: dict) -> dict:
+    """Hand qualified email leads to an Instantly campaign. Instantly owns the
+    sequence from there (warmup, rotation, follow-ups, reply detection), so no
+    internal follow-ups are drafted in this mode."""
+    if not cfg.send_enabled:
+        log_event(conn, "send_skipped", "instantly provider set but SEND_ENABLED=false")
+        return stats
+    if not cfg.instantly_configured:
+        log_event(conn, "send_skipped",
+                  "EMAIL_PROVIDER=instantly but INSTANTLY_API_KEY/INSTANTLY_CAMPAIGN_ID missing")
+        return stats
+
+    rows = conn.execute(
+        """SELECT d.*, s.author, s.product_id, s.url AS signal_url
+           FROM drafts d JOIN signals s ON s.id = d.signal_id
+           WHERE d.kind='email' AND d.status='pending' AND d.to_email IS NOT NULL
+             AND d.touch = 1
+           ORDER BY d.created_at""",
+    ).fetchall()
+
+    for row in rows:
+        if emails_sent_today(conn) >= cfg.daily_email_cap:
+            log_event(conn, "send_capped", f"daily cap {cfg.daily_email_cap} reached")
+            break
+        draft = dict(row)
+        if is_suppressed(conn, draft["to_email"]) or is_suppressed(conn, draft.get("author")):
+            conn.execute("UPDATE drafts SET status='dismissed' WHERE id=?", (draft["id"],))
+            conn.commit()
+            stats["blocked"] += 1
+            continue
+
+        campaign = cfg.instantly_campaign_for(draft["product_id"])
+        if _push_lead_to_instantly(cfg, campaign, draft):
+            conn.execute(
+                "UPDATE drafts SET status='sent', sent_at=? WHERE id=?",
+                (now_iso(), draft["id"]),
+            )
+            conn.commit()
+            stats["sent"] += 1
+            bump_metric(conn, draft["product_id"], "emails_sent")
+            log_event(conn, "instantly_handoff",
+                      f"draft {draft['id']} -> campaign {campaign}")
+        else:
+            log_event(conn, "send_error",
+                      f"instantly push failed for draft {draft['id']}")
+    return stats
+
+
+def _push_lead_to_instantly(cfg: Config, campaign: str | None, draft: dict) -> bool:
+    """POST the lead to Instantly API v2 with the personalized draft attached.
+    In the Instantly campaign, use {{personalization}} as the email body and
+    {{subject_line}} as the subject so each lead gets the grounded draft."""
+    if not campaign:
+        return False
+    try:
+        resp = requests.post(
+            "https://api.instantly.ai/api/v2/leads",
+            headers={
+                "Authorization": f"Bearer {cfg.instantly_api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "campaign": campaign,
+                "email": draft["to_email"],
+                "personalization": draft["body"],
+                "custom_variables": {
+                    "subject_line": draft.get("subject") or "Quick note",
+                    "product": draft["product_id"],
+                    "source_url": draft.get("signal_url") or "",
+                },
+            },
+            timeout=20,
+        )
+        return resp.status_code in (200, 201)
+    except requests.RequestException:
+        return False
 
 
 def _draft_due_followups(conn: sqlite3.Connection, cfg: Config, ai: AI, stats: dict) -> None:

@@ -23,8 +23,11 @@ even that).
                personalized outreach: a helpful forum reply or a 50-125 word
                first-touch email. Every draft quotes the lead's actual words —
                it is forbidden from inventing "personalization".
- 4. SEND       Email follow-ups (3-touch sequence, days 0/3/10-style) go out
-               automatically IF you enable autopilot; forum replies always
+ 4. SEND       Two email modes (EMAIL_PROVIDER): "resend" sends directly and
+               runs a 3-touch sequence itself; "instantly" hands each lead +
+               personalized draft to an Instantly campaign, which handles
+               warmup, inbox rotation, follow-ups and reply detection. Both
+               fire only when you enable autopilot. Forum replies always
                wait for your one-click approval (that's what keeps accounts
                alive — see docs/PLAYBOOK.md).
  5. REPORT     Updates the dashboard and emails you a digest of the day's

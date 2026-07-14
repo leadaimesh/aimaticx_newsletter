@@ -193,8 +193,16 @@ def _doctor(cfg) -> int:
           "required: scoring and outreach can't run without it")
     check(bool(cfg.serper_api_key), "SERPER_API_KEY set",
           "optional: adds Google/Quora discovery (serper.dev)", warn=True)
-    check(cfg.email_configured, "Email configured (RESEND_API_KEY + FROM_EMAIL)",
-          "optional: enables sending + your daily digest email", warn=True)
+    check(cfg.email_configured, "Resend configured (RESEND_API_KEY + FROM_EMAIL)",
+          "optional: enables the daily digest email (and outreach in resend mode)",
+          warn=True)
+    check(cfg.email_provider in ("resend", "instantly"),
+          f"EMAIL_PROVIDER valid ({cfg.email_provider})",
+          "must be 'resend' or 'instantly'")
+    if cfg.email_provider == "instantly":
+        check(cfg.instantly_configured,
+              "Instantly configured (INSTANTLY_API_KEY + INSTANTLY_CAMPAIGN_ID)",
+              "required because EMAIL_PROVIDER=instantly")
     check(bool(cfg.owner_email), "OWNER_EMAIL set", "digest destination", warn=True)
     check(len(cfg.products) > 0, "products.yaml has products")
     for p in cfg.products:
