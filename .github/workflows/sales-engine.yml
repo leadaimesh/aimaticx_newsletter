@@ -46,6 +46,17 @@ jobs:
           OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}
           SEND_ENABLED: ${{ vars.SEND_ENABLED }}
           DAILY_EMAIL_CAP: ${{ vars.DAILY_EMAIL_CAP }}
+          EMAIL_PROVIDER: ${{ vars.EMAIL_PROVIDER }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GMAIL_ADDRESS_DOC2TRANSLATE: ${{ secrets.GMAIL_ADDRESS_DOC2TRANSLATE }}
+          GMAIL_APP_PASSWORD_DOC2TRANSLATE: ${{ secrets.GMAIL_APP_PASSWORD_DOC2TRANSLATE }}
+          GMAIL_ADDRESS_YT2TRANSLATE: ${{ secrets.GMAIL_ADDRESS_YT2TRANSLATE }}
+          GMAIL_APP_PASSWORD_YT2TRANSLATE: ${{ secrets.GMAIL_APP_PASSWORD_YT2TRANSLATE }}
+          GMAIL_ADDRESS_AIMATICX: ${{ secrets.GMAIL_ADDRESS_AIMATICX }}
+          GMAIL_APP_PASSWORD_AIMATICX: ${{ secrets.GMAIL_APP_PASSWORD_AIMATICX }}
+          INSTANTLY_API_KEY: ${{ secrets.INSTANTLY_API_KEY }}
+          INSTANTLY_CAMPAIGN_ID: ${{ secrets.INSTANTLY_CAMPAIGN_ID }}
         run: python run_engine.py daily
 
       - name: Commit results

@@ -6,6 +6,7 @@ Daily autopilot (what GitHub Actions runs):
 
 Individual stages:
     python run_engine.py discover | score | outreach | send | report
+    python run_engine.py inbox                      # scan Gmail for replies/bounces
 
 Working the queue:
     python run_engine.py queue                      # list pending drafts
@@ -32,6 +33,7 @@ from engine.ai import AI
 from engine.config import DASHBOARD_DIR, load_config
 from engine.db import bump_metric, connect, now_iso, suppress
 from engine.demo import reset_db, seed_demo
+from engine.inbox import check_inboxes
 from engine.outreach import create_drafts
 from engine.pipeline import run_daily, run_discovery
 from engine.report import write_dashboard
@@ -70,6 +72,9 @@ def main() -> int:
     elif args.command == "send":
         _require_api_key(cfg)
         print(json.dumps(process_email_queue(conn, cfg, AI(cfg)), indent=2))
+
+    elif args.command == "inbox":
+        print(json.dumps(check_inboxes(conn, cfg), indent=2))
 
     elif args.command == "report":
         write_dashboard(conn, cfg)
@@ -196,13 +201,23 @@ def _doctor(cfg) -> int:
     check(cfg.email_configured, "Resend configured (RESEND_API_KEY + FROM_EMAIL)",
           "optional: enables the daily digest email (and outreach in resend mode)",
           warn=True)
-    check(cfg.email_provider in ("resend", "instantly"),
+    check(cfg.email_provider in ("resend", "gmail", "instantly"),
           f"EMAIL_PROVIDER valid ({cfg.email_provider})",
-          "must be 'resend' or 'instantly'")
+          "must be 'resend', 'gmail' or 'instantly'")
     if cfg.email_provider == "instantly":
         check(cfg.instantly_configured,
               "Instantly configured (INSTANTLY_API_KEY + INSTANTLY_CAMPAIGN_ID)",
               "required because EMAIL_PROVIDER=instantly")
+    if cfg.email_provider == "gmail":
+        check(cfg.gmail_configured,
+              "Gmail configured (GMAIL_ADDRESS + GMAIL_APP_PASSWORD)",
+              "required because EMAIL_PROVIDER=gmail; use a Google app password")
+    if cfg.gmail_accounts():
+        for p in cfg.products:
+            acct = cfg.gmail_account_for(p.id)
+            check(acct is not None, f"{p.name}: Gmail account resolved",
+                  "add GMAIL_ADDRESS_<PRODUCT> or the primary GMAIL_ADDRESS", warn=True)
+        check(True, f"Inbox monitoring active on {len(cfg.gmail_accounts())} account(s)")
     check(bool(cfg.owner_email), "OWNER_EMAIL set", "digest destination", warn=True)
     check(len(cfg.products) > 0, "products.yaml has products")
     for p in cfg.products:

@@ -23,13 +23,16 @@ even that).
                personalized outreach: a helpful forum reply or a 50-125 word
                first-touch email. Every draft quotes the lead's actual words —
                it is forbidden from inventing "personalization".
- 4. SEND       Two email modes (EMAIL_PROVIDER): "resend" sends directly and
-               runs a 3-touch sequence itself; "instantly" hands each lead +
-               personalized draft to an Instantly campaign, which handles
-               warmup, inbox rotation, follow-ups and reply detection. Both
-               fire only when you enable autopilot. Forum replies always
-               wait for your one-click approval (that's what keeps accounts
-               alive — see docs/PLAYBOOK.md).
+ 4. SEND       Three email modes (EMAIL_PROVIDER): "gmail" sends from your
+               own Gmail per project AND watches those inboxes; "resend"
+               sends via API; "instantly" hands leads to an Instantly
+               campaign at scale. All fire only when you enable autopilot.
+               Forum replies always wait for your one-click approval
+               (that's what keeps accounts alive — see docs/PLAYBOOK.md).
+ 4b. INBOX     In gmail mode the engine reads each account's NEW mail
+               (read-only IMAP, never touches read/unread state): a reply
+               cancels remaining follow-ups and counts on the dashboard, a
+               bounce or "not interested" suppresses the address forever.
  5. REPORT     Updates the dashboard and emails you a digest of the day's
                numbers and the hottest leads with direct links.
 ```
@@ -42,8 +45,12 @@ even that).
    Actions → *Secrets*):
    - `ANTHROPIC_API_KEY` — required (platform.claude.com)
    - `SERPER_API_KEY` — optional, adds Google discovery (serper.dev, 2,500 free)
-   - `RESEND_API_KEY` — optional, enables email sending + your daily digest
-     (resend.com, 3,000 emails/month free)
+   - `GMAIL_ADDRESS` + `GMAIL_APP_PASSWORD` — recommended: sends outreach and
+     your digest from your own Gmail AND auto-detects replies/bounces. On the
+     Google account: enable 2-Step Verification, then create an app password
+     at myaccount.google.com/apppasswords. Add
+     `GMAIL_ADDRESS_DOC2TRANSLATE` etc. for a separate identity per project.
+   - `RESEND_API_KEY` — alternative sender (resend.com), no inbox monitoring
 3. **Add repository variables** (same page, *Variables* tab):
    - `OWNER_EMAIL` = `coachdan75@gmail.com`
    - `FROM_EMAIL` = your verified Resend sender (only if using Resend)

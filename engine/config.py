@@ -48,9 +48,11 @@ class Config:
     owner_email: str | None = None
     send_enabled: bool = False
     daily_email_cap: int = 20
-    email_provider: str = "resend"        # resend | instantly
+    email_provider: str = "resend"        # resend | gmail | instantly
     instantly_api_key: str | None = None
     instantly_campaign_id: str | None = None
+    gmail_address: str | None = None
+    gmail_app_password: str | None = None
 
     def product(self, product_id: str) -> Product | None:
         return next((p for p in self.products if p.id == product_id), None)
@@ -68,6 +70,30 @@ class Config:
         """Per-product campaign from settings.yaml, else the default campaign."""
         mapping = self.settings.get("email", {}).get("instantly_campaigns", {}) or {}
         return mapping.get(product_id) or self.instantly_campaign_id
+
+    @property
+    def gmail_configured(self) -> bool:
+        return bool(self.gmail_address and self.gmail_app_password)
+
+    def gmail_account_for(self, product_id: str) -> tuple[str, str] | None:
+        """Each project can send from its own Gmail via env vars like
+        GMAIL_ADDRESS_DOC2TRANSLATE / GMAIL_APP_PASSWORD_DOC2TRANSLATE;
+        falls back to the primary GMAIL_ADDRESS / GMAIL_APP_PASSWORD."""
+        suffix = product_id.upper().replace("-", "_")
+        addr = os.environ.get(f"GMAIL_ADDRESS_{suffix}") or self.gmail_address
+        pwd = os.environ.get(f"GMAIL_APP_PASSWORD_{suffix}") or self.gmail_app_password
+        return (addr, pwd) if addr and pwd else None
+
+    def gmail_accounts(self) -> list[tuple[str, str]]:
+        """All distinct configured Gmail accounts (for inbox monitoring)."""
+        seen: dict[str, str] = {}
+        if self.gmail_configured:
+            seen[self.gmail_address] = self.gmail_app_password
+        for p in self.products:
+            acct = self.gmail_account_for(p.id)
+            if acct:
+                seen[acct[0]] = acct[1]
+        return list(seen.items())
 
 
 def _load_yaml(path: Path) -> dict:
@@ -100,4 +126,6 @@ def load_config() -> Config:
         email_provider=os.environ.get("EMAIL_PROVIDER", "resend").lower(),
         instantly_api_key=os.environ.get("INSTANTLY_API_KEY"),
         instantly_campaign_id=os.environ.get("INSTANTLY_CAMPAIGN_ID"),
+        gmail_address=os.environ.get("GMAIL_ADDRESS"),
+        gmail_app_password=os.environ.get("GMAIL_APP_PASSWORD"),
     )

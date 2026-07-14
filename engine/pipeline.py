@@ -7,6 +7,7 @@ import sqlite3
 from .ai import AI
 from .config import Config
 from .db import bump_metric, insert_signal, log_event
+from .inbox import check_inboxes
 from .outreach import create_drafts
 from .report import send_digest, write_dashboard
 from .scoring import score_new_signals
@@ -54,6 +55,8 @@ def run_daily(conn: sqlite3.Connection, cfg: Config) -> dict:
     ai = AI(cfg)
     results: dict = {}
 
+    # Inbox first: replies detected now cancel follow-ups before send runs.
+    results["inbox"] = _safe(lambda: check_inboxes(conn, cfg), conn, "inbox")
     results["discovery"] = _safe(lambda: run_discovery(conn, cfg), conn, "discovery")
     results["scoring"] = _safe(lambda: score_new_signals(conn, cfg, ai), conn, "scoring")
     results["outreach"] = _safe(lambda: create_drafts(conn, cfg, ai), conn, "outreach")

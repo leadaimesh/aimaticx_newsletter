@@ -62,6 +62,11 @@ CREATE TABLE IF NOT EXISTS metrics_daily (
     PRIMARY KEY (date, product_id)
 );
 
+CREATE TABLE IF NOT EXISTS inbox_state (
+    account TEXT PRIMARY KEY,           -- gmail address being monitored
+    last_uid INTEGER NOT NULL           -- highest IMAP UID already processed
+);
+
 CREATE TABLE IF NOT EXISTS events (
     id INTEGER PRIMARY KEY,
     at TEXT NOT NULL,

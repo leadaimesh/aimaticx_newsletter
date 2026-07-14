@@ -18,8 +18,10 @@ A bounce/complaint should be added to suppression via
 
 from __future__ import annotations
 
+import smtplib
 import sqlite3
 from datetime import datetime, timedelta, timezone
+from email.message import EmailMessage
 
 import requests
 
@@ -36,8 +38,12 @@ def process_email_queue(conn: sqlite3.Connection, cfg: Config, ai: AI) -> dict:
 
     _draft_due_followups(conn, cfg, ai, stats)
 
-    if not (cfg.send_enabled and cfg.email_configured):
-        log_event(conn, "send_skipped", "autopilot off or email not configured")
+    provider_ready = (
+        cfg.gmail_configured if cfg.email_provider == "gmail" else cfg.email_configured
+    )
+    if not (cfg.send_enabled and provider_ready):
+        log_event(conn, "send_skipped",
+                  f"autopilot off or {cfg.email_provider} not configured")
         return stats
 
     window = cfg.settings.get("email", {}).get("send_window_utc", [13, 21])
@@ -66,7 +72,8 @@ def process_email_queue(conn: sqlite3.Connection, cfg: Config, ai: AI) -> dict:
             stats["blocked"] += 1
             continue
 
-        if _send_via_resend(cfg, draft["to_email"], draft["subject"] or "Quick note", draft["body"]):
+        if _send_email(cfg, draft["product_id"], draft["to_email"],
+                       draft["subject"] or "Quick note", draft["body"]):
             conn.execute(
                 "UPDATE drafts SET status='sent', sent_at=? WHERE id=?",
                 (now_iso(), draft["id"]),
@@ -213,6 +220,36 @@ def _draft_due_followups(conn: sqlite3.Connection, cfg: Config, ai: AI, stats: d
         stats["followups_drafted"] += 1
 
 
+def _send_email(cfg: Config, product_id: str, to_email: str, subject: str, body: str) -> bool:
+    """Provider dispatch for outreach: gmail sends from the product's own
+    Gmail account; resend sends from FROM_EMAIL."""
+    if cfg.email_provider == "gmail":
+        acct = cfg.gmail_account_for(product_id)
+        if not acct:
+            return False
+        return _send_via_gmail(acct[0], acct[1], to_email, subject, body)
+    return _send_via_resend(cfg, to_email, subject, body)
+
+
+def _send_via_gmail(address: str, app_password: str, to_email: str,
+                    subject: str, body: str) -> bool:
+    """Plain SMTP through Gmail. Needs 2-step verification + an app password
+    on the Google account. Keep volume modest: Gmail tolerates roughly
+    100-150 cold sends/day on Workspace, far less on brand-new accounts."""
+    msg = EmailMessage()
+    msg["From"] = address
+    msg["To"] = to_email
+    msg["Subject"] = subject
+    msg.set_content(body)
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
+            smtp.login(address, app_password)
+            smtp.send_message(msg)
+        return True
+    except (smtplib.SMTPException, OSError):
+        return False
+
+
 def _send_via_resend(cfg: Config, to_email: str, subject: str, body: str) -> bool:
     try:
         resp = requests.post(
@@ -227,7 +264,14 @@ def _send_via_resend(cfg: Config, to_email: str, subject: str, body: str) -> boo
 
 
 def send_owner_email(cfg: Config, subject: str, body: str) -> bool:
-    """Digest to the owner — allowed even when outreach autopilot is off."""
-    if not (cfg.email_configured and cfg.owner_email):
+    """Digest to the owner — allowed even when outreach autopilot is off.
+    Prefers Resend; falls back to the primary Gmail account, so no extra
+    service is needed once Gmail is set up."""
+    if not cfg.owner_email:
         return False
-    return _send_via_resend(cfg, cfg.owner_email, subject, body)
+    if cfg.email_configured:
+        return _send_via_resend(cfg, cfg.owner_email, subject, body)
+    if cfg.gmail_configured:
+        return _send_via_gmail(cfg.gmail_address, cfg.gmail_app_password,
+                               cfg.owner_email, subject, body)
+    return False
