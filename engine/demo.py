@@ -102,8 +102,8 @@ def seed_demo(conn: sqlite3.Connection, cfg: Config, days: int = 35) -> None:
                             "the layout. One tip that helps whatever tool you use: export to "
                             "DOCX first. Translation engines handle it way better than raw "
                             "PDF. I actually built Doc2Translate for exactly this, it keeps "
-                            "tables and formatting intact. Happy to run your first doc free "
-                            "if you want to sanity check it.",
+                            "tables and formatting intact and costs a fraction of what an "
+                            "agency charges. Worth a look before you pay that quote.",
                             "sent" if sent else "pending",
                             day.strftime("%Y-%m-%dT%H:%M:%SZ"),
                             day.strftime("%Y-%m-%dT%H:%M:%SZ") if sent else None,

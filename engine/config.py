@@ -29,6 +29,10 @@ class Product:
     subreddits: list[str]
     negative_keywords: list[str] = field(default_factory=list)
     priority: int = 99
+    # What outreach may and may not promise. offers is the ONLY source of
+    # incentives a draft can mention; empty means no incentives, ever.
+    sales_policy: str = ""
+    offers: list[str] = field(default_factory=list)
 
 
 @dataclass

@@ -186,7 +186,13 @@ HARD RULES:
   about the person, their company, or their situation.
 - Include in grounding_quote the exact phrase from their post you are
   responding to. If you cannot ground the draft in their actual words, keep it
-  generic rather than inventing."""
+  generic rather than inventing.
+- PRICING AND OFFERS: this is a paid product. NEVER offer free work, free
+  translations, free samples, free trials, discounts, or "I'll run it for you
+  free". The ONLY incentives you may mention are the ones listed under
+  CURRENT OFFERS in the product info above; if none are listed, your call to
+  action is simply to look at the product, never a giveaway. Never invent or
+  estimate prices; quote pricing only exactly as written in the product info."""
 
         response = self.client.messages.parse(
             model=MODEL,
@@ -205,7 +211,8 @@ HARD RULES:
         """Draft follow-up email touch 2 or 3 (shorter each time)."""
         prompt = f"""You write outreach for a solo founder named Dan.
 
-PRODUCT: {product.name} — {product.tagline} ({product.url})
+PRODUCT:
+{_product_context(product)}
 
 This person was emailed before about their post ("{(signal.get('title') or signal.get('body') or '')[:200]}")
 and has not replied. Previous email:
@@ -220,6 +227,8 @@ Write follow-up #{touch - 1}. Rules:
 - End the body with this exact footer on its own lines:
 {unsubscribe_footer}
 - grounding_quote: reuse the strongest phrase from their original post.
+- NEVER offer free work, free translations, discounts, or any incentive not
+  listed under CURRENT OFFERS above. No "I'll do one free to win you back".
 
 {HUMAN_STYLE}"""
 
@@ -265,11 +274,15 @@ use a comma or a new sentence instead."""
 
 
 def _product_context(product: Product) -> str:
+    offers = "; ".join(product.offers) if product.offers else "NONE (no giveaways, no discounts)"
+    policy = product.sales_policy.strip() or "Paid product. Never offer free work."
     return (
         f"Name: {product.name}\n"
         f"URL: {product.url}\n"
         f"What it does: {product.description.strip()}\n"
         f"Key benefits: {'; '.join(product.value_props)}\n"
         f"Pricing: {product.pricing}\n"
+        f"SALES POLICY: {policy}\n"
+        f"CURRENT OFFERS (the only incentives allowed in outreach): {offers}\n"
         f"Ideal customer: {product.ideal_customer.strip()}"
     )

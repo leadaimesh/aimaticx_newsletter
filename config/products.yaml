@@ -26,7 +26,12 @@ products:
       - Minutes instead of the days a human agency takes
       - Far cheaper than professional translation services
       - Supports major file types (PDF, DOCX, PPTX, XLSX)
-    pricing: "Pay-as-you-go per document; free preview"   # TODO(Dan): real pricing
+    pricing: "Paid, per document. No free translations."  # TODO(Dan): exact prices from your pricing page
+    sales_policy: >
+      Doc2Translate never translates for free. No free samples, no free first
+      document, no discounts. Outreach points people at the product; it never
+      gives work away.
+    offers: []          # empty = drafts may not mention ANY incentive
     ideal_customer: >
       STARTING NICHE — businesses shipping to/within Europe: e-commerce
       sellers, exporters and logistics teams who need customs paperwork,
@@ -78,7 +83,14 @@ products:
       - Accurate AI transcription + translation in one step
       - Subtitle files (SRT/VTT) ready to upload back to YouTube
       - Grow international watch time without re-recording
-    pricing: "Free tier; paid plans per video minute"     # TODO(Dan): real pricing
+    # Per the live site: transcript generation is the free hook; translation
+    # and batch exports require premium credits (paid).
+    pricing: "Transcripts free to generate; translation and batch exports use paid premium credits."  # TODO(Dan): exact credit prices
+    sales_policy: >
+      Translation is never free. Drafts may mention that generating a
+      transcript is free (that's the product's own hook), but must never
+      promise free translation, free credits, or discounts.
+    offers: []
     ideal_customer: >
       YouTube creators trying to grow international audiences, educators
       localizing course content, and marketers repurposing video for new
@@ -115,7 +127,13 @@ products:
       - Practical AI playbooks written for non-technical owners
       - Done-for-you automations that save hours every week
       - One place to keep up with AI that actually matters for business
-    pricing: "Free newsletter; automation packages quoted per project"  # TODO(Dan)
+    pricing: "Newsletter is the free entry point; automation work is paid, quoted per project."  # TODO(Dan): confirm
+    sales_policy: >
+      The newsletter subscription is the only free thing. Automation and
+      consulting work is always paid; never offer free audits, free builds,
+      or discounts.
+    offers:
+      - "Free newsletter subscription (the newsletter itself, nothing else)"
     ideal_customer: >
       Small business owners, solo founders and coaches who know AI could help
       them but don't have time to figure it out themselves.
