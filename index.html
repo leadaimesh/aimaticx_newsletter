@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0f1420" />
+<title>Visceral Fat Switch — 3-Week Coach</title>
+<style>
+  :root{
+    --bg:#0f1420; --bg2:#151c2c; --card:#1a2234; --card2:#212c42;
+    --line:#2a3550; --text:#eef2fb; --muted:#93a0be; --dim:#6b7997;
+    --accent:#33d99b; --accent2:#2bb3ff; --warn:#ffb454; --bad:#ff6b6b;
+    --gold:#ffd166; --shadow:0 8px 30px rgba(0,0,0,.35);
+    --r:16px;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#eef1f7; --bg2:#e4e9f3; --card:#ffffff; --card2:#f4f6fb;
+      --line:#dce2ee; --text:#141a28; --muted:#55617d; --dim:#8a94ab;
+      --shadow:0 8px 24px rgba(30,45,80,.10);
+    }
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:linear-gradient(180deg,var(--bg),var(--bg2) 60%);
+    color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    min-height:100dvh; -webkit-font-smoothing:antialiased; line-height:1.45;
+    padding-bottom:88px;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:0 16px}
+  header.top{
+    position:sticky;top:0;z-index:20;
+    background:linear-gradient(180deg,var(--bg),rgba(15,20,32,.85));
+    backdrop-filter:blur(10px);
+    padding:14px 0 10px; border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;align-items:center;gap:10px}
+  .switch-ico{
+    width:34px;height:34px;border-radius:10px;flex:none;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:grid;place-items:center;font-size:18px;box-shadow:0 4px 14px rgba(43,179,255,.35)
+  }
+  h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.2px}
+  .sub{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .daychip{margin-left:auto;text-align:right}
+  .daychip b{font-size:15px}
+  .daychip span{display:block;font-size:10.5px;color:var(--dim)}
+
+  /* progress ring for the day */
+  .dayline{display:flex;gap:4px;margin-top:12px}
+  .dayline i{flex:1;height:5px;border-radius:4px;background:var(--line)}
+  .dayline i.done{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  .dayline i.cur{background:var(--gold);box-shadow:0 0 8px rgba(255,209,102,.6)}
+
+  section{margin:16px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+  .card + .card{margin-top:12px}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin:0 0 10px}
+  h3{font-size:15px;margin:0 0 6px}
+
+  /* NOW card */
+  .now{background:linear-gradient(135deg,#1c2740,#182034);border:1px solid var(--line)}
+  .now .label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .now .big{font-size:22px;font-weight:750;margin:6px 0 4px;line-height:1.25}
+  .now .desc{color:var(--muted);font-size:13.5px}
+  .now .win{margin-top:12px;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;
+    padding:6px 11px;border-radius:999px}
+  .win.eat{background:rgba(51,217,155,.14);color:var(--accent)}
+  .win.fast{background:rgba(43,179,255,.14);color:var(--accent2)}
+
+  /* timeline */
+  .tl{position:relative;margin-top:4px}
+  .tl .row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);position:relative}
+  .tl .row:last-child{border-bottom:0}
+  .tl .time{width:60px;flex:none;font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--dim);padding-top:1px}
+  .tl .dot{width:11px;height:11px;border-radius:50%;background:var(--line);flex:none;margin-top:4px;border:2px solid var(--card)}
+  .tl .row.past .dot{background:var(--accent)}
+  .tl .row.active{background:linear-gradient(90deg,rgba(255,209,102,.10),transparent);border-radius:10px;margin:0 -8px;padding:10px 8px}
+  .tl .row.active .dot{background:var(--gold);box-shadow:0 0 0 4px rgba(255,209,102,.18)}
+  .tl .body strong{font-size:14px;display:block}
+  .tl .body small{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+
+  /* checklist */
+  .check{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+  .check:last-child{border-bottom:0}
+  .box{width:24px;height:24px;border-radius:8px;border:2px solid var(--line);flex:none;display:grid;place-items:center;
+    transition:.15s;margin-top:1px;font-size:14px;color:#0b1220}
+  .check.on .box{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent}
+  .check .txt strong{font-size:14.5px;display:block}
+  .check.on .txt strong{color:var(--muted);text-decoration:line-through}
+  .check .txt small{color:var(--muted);font-size:12.5px}
+  .tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;margin-left:6px;vertical-align:middle;letter-spacing:.3px}
+  .tag.stop{background:rgba(255,107,107,.15);color:var(--bad)}
+  .tag.kill{background:rgba(51,217,155,.15);color:var(--accent)}
+
+  .scorebar{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:4px}
+  .scorebar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;transition:.4s}
+
+  /* nav */
+  nav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(15,20,32,.94);
+    backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  @media(prefers-color-scheme:light){nav{background:rgba(255,255,255,.94)}}
+  nav button{flex:1;background:none;border:0;color:var(--dim);font-size:10.5px;font-weight:600;
+    padding:6px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;font-family:inherit}
+  nav button .ic{font-size:19px;line-height:1}
+  nav button.on{color:var(--accent)}
+
+  .pill{display:inline-block;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--card2);color:var(--muted);border:1px solid var(--line);margin:0 6px 6px 0}
+  ul.clean{list-style:none;padding:0;margin:0}
+  ul.clean li{padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+  ul.clean li:last-child{border-bottom:0}
+  ul.clean li b{color:var(--text)}
+  ul.clean li .em{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+
+  .meal{border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:10px;background:var(--card2)}
+  .meal .when{font-size:11px;font-weight:700;color:var(--accent2);letter-spacing:.5px}
+  .meal h3{margin:3px 0 4px}
+  .meal p{margin:0;color:var(--muted);font-size:13px}
+  .meal .macro{margin-top:8px;font-size:11.5px;font-weight:700;color:var(--gold)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:12px;
+    border:0;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));color:#08131f}
+  .btn.ghost{background:var(--card2);color:var(--text);border:1px solid var(--line)}
+  .btn.sm{padding:9px;font-size:13px;width:auto}
+
+  .disc{font-size:11.5px;color:var(--dim);background:var(--card2);border:1px dashed var(--line);border-radius:12px;padding:12px;line-height:1.5}
+  .disc b{color:var(--warn)}
+
+  /* breather */
+  .breath-stage{height:230px;display:grid;place-items:center;position:relative;margin:8px 0}
+  .orb{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--accent2),var(--accent));
+    box-shadow:0 0 40px rgba(51,217,155,.4);transition:transform 1s ease, box-shadow 1s;display:grid;place-items:center}
+  .orb span{font-size:13px;font-weight:700;color:#06121e}
+  .bcount{text-align:center;font-size:13px;color:var(--muted);margin-top:2px}
+
+  .weekgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:6px}
+  .weekgrid .d{text-align:center;padding:9px 2px;border-radius:10px;background:var(--card2);border:1px solid var(--line);font-size:11px}
+  .weekgrid .d b{display:block;font-size:12px;margin-bottom:3px}
+  .weekgrid .d.fast{background:rgba(43,179,255,.13);border-color:var(--accent2)}
+  .weekgrid .d small{font-size:9.5px;color:var(--dim)}
+  .weekgrid .d.today{outline:2px solid var(--gold);outline-offset:1px}
+
+  .kv{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .kv:last-child{border-bottom:0}
+  .kv span{color:var(--muted)}
+  a{color:var(--accent2)}
+  .center{text-align:center}
+  .mut{color:var(--muted);font-size:13px}
+  .hide{display:none!important}
+  .fade{animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .setup{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;padding:24px}
+  .setup .card{max-width:420px}
+  input[type=time],input[type=date],select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);
+    background:var(--card2);color:var(--text);font-family:inherit;font-size:15px;margin-top:6px}
+  label.fld{display:block;font-size:12.5px;color:var(--muted);margin-top:14px;font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- ONE-TIME SETUP -->
+<div class="setup" id="setup">
+  <div class="card fade">
+    <div class="switch-ico" style="width:44px;height:44px;font-size:24px;margin-bottom:12px">⚡</div>
+    <h3 style="font-size:19px">Let's flip the switch.</h3>
+    <p class="mut" style="margin-top:4px">3 weeks. Stop feeding visceral fat, and consistently kill it. Set your window and we start Day 1 today.</p>
+    <label class="fld">First meal / eating window opens</label>
+    <input type="time" id="s-start" value="12:00">
+    <label class="fld">Window closes (start fasting)</label>
+    <input type="time" id="s-end" value="20:00">
+    <label class="fld">Your weekly 24-hour fast day</label>
+    <select id="s-fast">
+      <option value="1">Monday</option><option value="2">Tuesday</option>
+      <option value="3">Wednesday</option><option value="4">Thursday</option>
+      <option value="5">Friday</option><option value="6">Saturday</option>
+      <option value="0">Sunday</option>
+    </select>
+    <button class="btn" style="margin-top:20px" onclick="finishSetup()">Start Day 1 →</button>
+    <p class="disc" style="margin-top:14px"><b>Not medical advice.</b> This app organizes a public educational protocol (Dr. Michael Diamonds). Talk to your own doctor before fasting or taking psyllium/ACV — especially with any medication, blood-sugar, kidney, liver, reflux or ulcer condition.</p>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <div class="switch-ico">⚡</div>
+      <div>
+        <h1>The Visceral Fat Switch</h1>
+        <div class="sub" id="clock">—</div>
+      </div>
+      <div class="daychip">
+        <b id="dayNum">Day 1</b>
+        <span>of 21</span>
+      </div>
+    </div>
+    <div class="dayline" id="dayline"></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===================== TODAY ===================== -->
+  <div id="view-today" class="viewpage">
+    <section>
+      <div class="card now" id="nowCard">
+        <div class="label" id="nowLabel">RIGHT NOW</div>
+        <div class="big" id="nowBig">—</div>
+        <div class="desc" id="nowDesc">—</div>
+        <div id="nowWin"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>Today's timeline</h2>
+        <div class="tl" id="timeline"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>Daily non-negotiables</h2>
+        <div id="score" class="mut" style="margin-bottom:8px;font-size:12.5px">0 / 0 done</div>
+        <div class="scorebar"><i id="scorebar"></i></div>
+        <div id="checklist" style="margin-top:6px"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== EAT ===================== -->
+  <div id="view-eat" class="viewpage hide">
+    <section>
+      <div class="card">
+        <h2>The Gut-Fire Meal Plan</h2>
+        <p class="mut" style="margin-top:-4px">High protein + fermented + fiber. Burns energy digesting, feeds good gut bacteria, keeps insulin low.</p>
+        <div class="meal">
+          <div class="when">MEAL 1 · WINDOW OPENS</div>
+          <h3>Greek Yogurt Power Bowl</h3>
+          <p>Unsweetened Greek yogurt (label must say <b>live cultures</b>) + 1 scoop protein powder + a cup of berries + chia seeds.</p>
+          <div class="macro">≈ 50g protein before you even hit meal 2</div>
+        </div>
+        <div class="meal">
+          <div class="when">MEAL 2 · MID-WINDOW</div>
+          <h3>Salmon + Baked Potato</h3>
+          <p>Salmon (omega-3s, insulin sensitivity) with a baked potato — highest satiety of any carb. Kimchi or sauerkraut on the side.</p>
+          <div class="macro">Fuller, longer — fermented gut boost</div>
+        </div>
+        <div class="meal">
+          <div class="when">MEAL 3 · BEFORE WINDOW CLOSES</div>
+          <h3>Scrambled Eggs</h3>
+          <p>Whole egg (1–2 yolks for fat-soluble vitamins) + egg whites for protein and choline.</p>
+          <div class="macro">Protein + choline to close the day</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>Spike Flatteners — before your first meal</h2>
+        <ul class="clean">
+          <li><b>Water first</b> on waking.<span class="em">Rehydrate before anything else.</span></li>
+          <li><b>Psyllium drink</b> — 1 tsp in a glass of water, ~10 min before eating.<span class="em">Forms the gel that slows sugar in — like the funnel. Then chase with LOTS more water or it sits like a cinder block.</span></li>
+          <li><b>Or apple cider vinegar</b> — 1 tbsp in a <b>full</b> cup of water, with the meal.<span class="em">Alternative to psyllium if you prefer.</span></li>
+        </ul>
+        <p class="disc" style="margin-top:12px"><b>Careful:</b> Psyllium can slow absorption of medication — if you take anything in the morning (especially blood-sugar meds) ask your doctor first. Always dilute ACV heavily; skip it with acid reflux or ulcers.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>Gut-Fire Food List — screenshot this</h2>
+        <div id="foodPills"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>Stop feeding it — for 3 weeks</h2>
+        <ul class="clean">
+          <li><b>No alcohol</b> <span class="tag stop">STOP</span><span class="em">A metabolic brake — your liver drops everything to process it and fat-burning stalls.</span></li>
+          <li><b>No ultra-processed food</b> <span class="tag stop">STOP</span><span class="em">No fiber, no work for your gut — sugar floods in, insulin surges, the switch slams on. Eat whole foods with the same calories and 3× the volume.</span></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== MOVE ===================== -->
+  <div id="view-move" class="viewpage hide">
+    <section>
+      <div class="card">
+        <h2>Walk — the exercise nobody respects</h2>
+        <ul class="clean">
+          <li><b>10,000–15,000 steps a day</b><span class="em">Break it up all day. 15k ≈ 500 cal → a pound of fat a week from walking alone. A walking pad under your desk is the best cheap investment.</span></li>
+          <li><b>Walking HIIT — 2–3×/week</b><span class="em">5 min warm-up → 4 rounds of [90s fast / 90s slow] → cool down. ~25 min total.</span></li>
+        </ul>
+      </div>
+    </section>
+    <section>
+      <div class="card">
+        <h2>Lift — muscle is the switch</h2>
+        <p class="mut" style="margin-top:-4px">Muscle is a sponge: it soaks up carbs as glycogen instead of letting them flood your blood and store as fat. More muscle = more sensitive = less storage, higher metabolism around the clock.</p>
+        <p style="font-weight:700;margin:6px 0 0">Resistance train 3×/week minimum. You don't need to become a bodybuilder — just show up.</p>
+      </div>
+    </section>
+    <section>
+      <div class="card">
+        <h2>Fasting — 6 days a week</h2>
+        <ul class="clean">
+          <li><b>16:8 daily</b><span class="em">Eat inside an 8-hour window (e.g. noon → 8pm), fast 16. Eight of those hours you're asleep.</span></li>
+          <li><b>One 24-hour fast per week</b><span class="em">Last meal one night 8pm → next dinner 8pm. Drops insulin to the floor, triggers autophagy, boosts growth hormone, gives your gut a full day to reset.</span></li>
+        </ul>
+        <div class="weekgrid" id="weekgrid"></div>
+        <p class="mut" style="font-size:12px;margin-top:10px">Fasting is a tool, not a religion — more isn't better. Real visceral fat loss compounds after the 8–12 week mark; these 3 weeks build the habit and the strong start.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== CALM ===================== -->
+  <div id="view-calm" class="viewpage hide">
+    <section>
+      <div class="card">
+        <h2>Cortisol — the hidden switch</h2>
+        <p class="mut" style="margin-top:-4px">Do everything right and still stuck? Chronic cortisol makes your body <b>hoard</b> fat around your organs as a survival response. It's anti-testosterone: stores fat, burns muscle, drains you. Driven not just by work — but by under-eating, over-exercising, poor sleep, and scrolling the second you wake.</p>
+      </div>
+    </section>
+    <section>
+      <div class="card">
+        <h2>Physiological Sigh — calm in 30s</h2>
+        <p class="mut" style="margin-top:-4px">Double inhale (long + short top-up) → long exhale. The fastest way to drop your stress response.</p>
+        <div class="breath-stage"><div class="orb" id="orb"><span id="orbTxt">Tap start</span></div></div>
+        <div class="bcount" id="breathCount">5 rounds</div>
+        <button class="btn" id="breathBtn" onclick="toggleBreath()">Start breathing</button>
+      </div>
+    </section>
+    <section>
+      <div class="card">
+        <h2>Bring cortisol down</h2>
+        <ul class="clean">
+          <li><b>15 min of breathing</b><span class="em">Lie on the floor, hand on chest, focus on one thing. That's all meditation is.</span></li>
+          <li><b>Walk with no headphones</b><span class="em">Just walk. It lowers cortisol.</span></li>
+          <li><b>Gratitude journaling</b><span class="em">Write what you're grateful for — releases oxytocin.</span></li>
+        </ul>
+      </div>
+    </section>
+    <section>
+      <div class="card">
+        <h2>Sleep protocol</h2>
+        <ul class="clean">
+          <li><b>Cut caffeine 10 hours before bed</b><span class="em">Bed at 10pm → last caffeine by noon.</span></li>
+          <li><b>Phone out of your hands the last hour</b><span class="em">This is what makes everything else work.</span></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== PLAN ===================== -->
+  <div id="view-plan" class="viewpage hide">
+    <section>
+      <div class="card">
+        <h2>The whole game</h2>
+        <p style="font-weight:700;font-size:15px;margin:0 0 6px">Insulin is the switch. High → you store. Low → you burn.</p>
+        <p class="mut" style="margin:0">Two things must happen at once for 3 weeks: <b>stop feeding it</b> AND <b>consistently kill it</b>. Miss either and you stay stuck.</p>
+      </div>
+    </section>
+    <section>
+      <div class="card">
+        <h2>Your progress</h2>
+        <div class="kv"><span>Program day</span><b id="p-day">Day 1 / 21</b></div>
+        <div class="kv"><span>Days logged clean</span><b id="p-clean">0</b></div>
+        <div class="kv"><span>Best streak</span><b id="p-streak">0 days</b></div>
+        <div class="kv"><span>Eating window</span><b id="p-win">—</b></div>
+        <div class="kv"><span>24-hr fast day</span><b id="p-fast">—</b></div>
+      </div>
+    </section>
+    <section>
+      <div class="card">
+        <h2>The 21 days</h2>
+        <div class="weekgrid" id="progGrid" style="grid-template-columns:repeat(7,1fr)"></div>
+        <p class="mut" style="font-size:12px;margin-top:10px">A day turns green when you complete every non-negotiable.</p>
+      </div>
+    </section>
+    <section>
+      <div class="card">
+        <p class="mut center" style="font-size:14px;font-style:italic;margin:4px 0">"Keep putting one foot in front of the other — especially when you don't feel like it."</p>
+        <button class="btn ghost sm" style="width:100%;margin-top:10px" onclick="resetAll()">Reset program</button>
+        <p class="disc" style="margin-top:12px"><b>Not medical advice.</b> Educational only, based on a public video by Dr. Michael Diamonds. Consult your own doctor before fasting or using psyllium/ACV, particularly with any medical condition or medication.</p>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<nav id="nav">
+  <button data-v="today" class="on" onclick="go('today')"><span class="ic">☀️</span>Today</button>
+  <button data-v="eat" onclick="go('eat')"><span class="ic">🍽️</span>Eat</button>
+  <button data-v="move" onclick="go('move')"><span class="ic">🚶</span>Move</button>
+  <button data-v="calm" onclick="go('calm')"><span class="ic">🧘</span>Calm</button>
+  <button data-v="plan" onclick="go('plan')"><span class="ic">📈</span>Plan</button>
+</nav>
+
+<script>
+/* ---------- storage ---------- */
+const K='vfs.v1';
+let S=load();
+function load(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return{}}}
+function save(){localStorage.setItem(K,JSON.stringify(S))}
+
+const DAYNAMES=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const SHORT=['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+/* ---------- setup ---------- */
+if(!S.started){document.getElementById('setup').classList.remove('hide')}
+else{document.getElementById('setup').classList.add('hide')}
+function finishSetup(){
+  S.started=todayKey();
+  S.winStart=document.getElementById('s-start').value||'12:00';
+  S.winEnd=document.getElementById('s-end').value||'20:00';
+  S.fastDay=parseInt(document.getElementById('s-fast').value);
+  S.log=S.log||{};
+  save();
+  document.getElementById('setup').classList.add('hide');
+  render();
+}
+
+/* ---------- date helpers ---------- */
+function todayKey(d){d=d||new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function programDay(){
+  if(!S.started)return 1;
+  const [y,m,dd]=S.started.split('-').map(Number);
+  const start=new Date(y,m-1,dd); start.setHours(0,0,0,0);
+  const now=new Date(); now.setHours(0,0,0,0);
+  return Math.min(21,Math.max(1,Math.floor((now-start)/86400000)+1));
+}
+function hm(t){const[h,m]=t.split(':').map(Number);return h*60+m}
+function nowMin(){const d=new Date();return d.getHours()*60+d.getMinutes()}
+function fmt(min){let h=Math.floor(min/60),m=min%60,ap=h>=12?'pm':'am';h=h%12||12;return h+(m?':'+String(m).padStart(2,'0'):'')+ap}
+
+/* ---------- checklist definition ---------- */
+const CHECKS=[
+  {id:'water',t:'Water first thing',s:'Before anything else on waking',tag:'kill'},
+  {id:'spike',t:'Spike flattener before meal 1',s:'Psyllium (+ lots of water) or ACV diluted',tag:'kill'},
+  {id:'m1',t:'Meal 1 — Greek yogurt power bowl',s:'~50g protein, break your fast',tag:'kill'},
+  {id:'m2',t:'Meal 2 — Salmon + baked potato',s:'Fermented side (kimchi / kraut)',tag:'kill'},
+  {id:'m3',t:'Meal 3 — Scrambled eggs',s:'Close the window before it shuts',tag:'kill'},
+  {id:'noalc',t:'No alcohol',s:'Metabolic brake — off for 3 weeks',tag:'stop'},
+  {id:'noupf',t:'No ultra-processed food',s:'Whole foods only',tag:'stop'},
+  {id:'steps',t:'10k–15k steps',s:'Break it up through the day',tag:'kill'},
+  {id:'lift',t:'Lift or walking-HIIT',s:'3× lift + 2–3× HIIT across the week',tag:'kill'},
+  {id:'fast',t:'Stayed in the fasting window',s:'Ate only inside your window',tag:'kill'},
+  {id:'calm',t:'Cortisol down',s:'15 min breathing / walk / journal',tag:'kill'},
+  {id:'sleep',t:'Sleep protocol',s:'Caffeine cutoff + phone away last hour',tag:'kill'},
+];
+
+const FOODS=['Plain Greek yogurt','Kefir','Sauerkraut','Kimchi','Berries','Chia seeds','Spinach','Salmon','Almonds','Avocado','Lean chicken','Whole eggs','Egg whites'];
+
+/* ---------- timeline (built from window) ---------- */
+function buildTimeline(){
+  const ws=hm(S.winStart), we=hm(S.winEnd);
+  const mid=Math.round((ws+we)/2);
+  const items=[
+    {t:Math.max(hm('06:30'),ws-330), k:'Wake — water first', s:'Rehydrate before anything'},
+    {t:ws-15, k:'Spike flattener', s:'Psyllium + water, or diluted ACV, ~10–15 min before eating'},
+    {t:ws, k:'Meal 1 — Yogurt power bowl', s:'Break the fast · ~50g protein'},
+    {t:Math.round((ws+mid)/2), k:'Walk', s:'Rack up steps toward 10–15k'},
+    {t:mid, k:'Meal 2 — Salmon + potato', s:'Fermented side'},
+    {t:we-45, k:'Meal 3 — Scrambled eggs', s:'Last food before the window closes'},
+    {t:we, k:'Window closes — fast begins', s:'Nothing but water/tea now'},
+    {t:we+120, k:'Cortisol down + no caffeine', s:'Breathe, walk, journal'},
+    {t:Math.min(hm('23:30'),we+180), k:'Phone away — sleep', s:'Last hour screen-free'},
+  ];
+  return items.sort((a,b)=>a.t-b.t);
+}
+
+/* ---------- rendering ---------- */
+let breathTimer=null, breathOn=false;
+
+function render(){
+  if(!S.started)return;
+  const pd=programDay();
+  document.getElementById('dayNum').textContent='Day '+pd;
+  document.getElementById('clock').textContent=DAYNAMES[new Date().getDay()]+' · '+fmt(nowMin());
+
+  // day line
+  let dl='';for(let i=1;i<=21;i++){dl+=`<i class="${i<pd?'done':i===pd?'cur':''}"></i>`}
+  document.getElementById('dayline').innerHTML=dl;
+
+  renderNow();
+  renderTimeline();
+  renderChecklist();
+  renderFoods();
+  renderWeek();
+  renderPlan();
+}
+
+function isFastDayToday(){return new Date().getDay()===S.fastDay}
+
+function renderNow(){
+  const n=nowMin(), ws=hm(S.winStart), we=hm(S.winEnd);
+  const c=document.getElementById('nowCard');
+  let label='RIGHT NOW', big, desc, win='';
+  const fastDay=isFastDayToday();
+
+  if(fastDay){
+    label='24-HOUR FAST DAY';
+    big='Deep fast today — insulin on the floor';
+    desc='Your one long fast this week. Water, black coffee or tea only until your dinner at '+S.winEnd.replace(':','')+'. Autophagy + gut reset.';
+    win='<div class="win fast">🔵 Fasting all day</div>';
+  } else if(n<ws-15){
+    big='Fasting — hold the line';
+    desc='Window opens at '+fmt(ws)+'. Drink water now. Spike flattener at '+fmt(ws-15)+'.';
+    win='<div class="win fast">🔵 '+Math.floor((ws-n)/60)+'h '+((ws-n)%60)+'m to your window</div>';
+  } else if(n>=ws-15 && n<ws){
+    big='Take your spike flattener';
+    desc='Psyllium (1 tsp + a glass of water, then chase with more) or 1 tbsp ACV in a full cup — 10–15 min before meal 1.';
+    win='<div class="win eat">🟢 Window opens '+fmt(ws)+'</div>';
+  } else if(n>=ws && n<we){
+    big='Eating window — fuel the burn';
+    const mid=Math.round((ws+we)/2);
+    desc = n<mid ? 'Meal 1: Greek yogurt power bowl. Get ~50g protein in.'
+         : n<we-45 ? 'Meal 2: Salmon + baked potato + fermented side. Keep moving for steps.'
+         : 'Meal 3: Scrambled eggs — last food before '+fmt(we)+'.';
+    win='<div class="win eat">🟢 '+Math.floor((we-n)/60)+'h '+((we-n)%60)+'m left to eat</div>';
+  } else {
+    big='Window closed — fasting + wind down';
+    desc='No more food. Caffeine cutoff, cortisol down (breathe/walk/journal), phone away the last hour.';
+    win='<div class="win fast">🔵 Fasting until tomorrow</div>';
+  }
+  document.getElementById('nowLabel').textContent=label;
+  document.getElementById('nowBig').textContent=big;
+  document.getElementById('nowDesc').textContent=desc;
+  document.getElementById('nowWin').innerHTML=win;
+}
+
+function renderTimeline(){
+  const n=nowMin(), items=buildTimeline();
+  let active=-1;
+  for(let i=0;i<items.length;i++){if(n>=items[i].t)active=i}
+  let h='';
+  items.forEach((it,i)=>{
+    const cls=n>=it.t?(i===active?'active':'past'):'';
+    h+=`<div class="row ${cls}"><div class="time">${fmt(it.t)}</div><div class="dot"></div>
+      <div class="body"><strong>${it.k}</strong><small>${it.s}</small></div></div>`;
+  });
+  document.getElementById('timeline').innerHTML=h;
+}
+
+function todayLog(){const k=todayKey();S.log=S.log||{};S.log[k]=S.log[k]||{};return S.log[k]}
+function renderChecklist(){
+  const lg=todayLog();
+  let h='';
+  CHECKS.forEach(c=>{
+    const on=lg[c.id]?'on':'';
+    h+=`<div class="check ${on}" onclick="toggle('${c.id}')">
+      <div class="box">✓</div>
+      <div class="txt"><strong>${c.t}<span class="tag ${c.tag}">${c.tag==='stop'?'STOP':'KILL'}</span></strong><small>${c.s}</small></div></div>`;
+  });
+  document.getElementById('checklist').innerHTML=h;
+  const done=CHECKS.filter(c=>lg[c.id]).length;
+  document.getElementById('score').textContent=done+' / '+CHECKS.length+' done';
+  document.getElementById('scorebar').style.width=(done/CHECKS.length*100)+'%';
+}
+function toggle(id){const lg=todayLog();lg[id]=!lg[id];save();renderChecklist();renderPlan();renderPlanGrid()}
+
+function renderFoods(){
+  document.getElementById('foodPills').innerHTML=FOODS.map(f=>`<span class="pill">${f}</span>`).join('');
+}
+
+function renderWeek(){
+  const today=new Date().getDay();
+  let h='';
+  for(let i=0;i<7;i++){
+    const fast=i===S.fastDay;
+    h+=`<div class="d ${fast?'fast':''} ${i===today?'today':''}"><b>${SHORT[i]}</b>${fast?'<small>24h fast</small>':'<small>16:8</small>'}</div>`;
+  }
+  document.getElementById('weekgrid').innerHTML=h;
+}
+
+function dayComplete(key){const d=(S.log||{})[key];if(!d)return false;return CHECKS.every(c=>d[c.id])}
+function renderPlan(){
+  const pd=programDay();
+  document.getElementById('p-day').textContent='Day '+pd+' / 21';
+  const logs=S.log||{};
+  const cleanDays=Object.keys(logs).filter(dayComplete).length;
+  document.getElementById('p-clean').textContent=cleanDays;
+  document.getElementById('p-win').textContent=fmt(hm(S.winStart))+' – '+fmt(hm(S.winEnd));
+  document.getElementById('p-fast').textContent=DAYNAMES[S.fastDay];
+  // streak: consecutive complete days ending today or yesterday
+  let streak=0,best=0,run=0;
+  const [y,m,dd]=S.started.split('-').map(Number);
+  const start=new Date(y,m-1,dd);
+  for(let i=0;i<21;i++){
+    const dt=new Date(start);dt.setDate(start.getDate()+i);
+    if(dayComplete(todayKey(dt))){run++;best=Math.max(best,run)}else{run=0}
+  }
+  document.getElementById('p-streak').textContent=best+' days';
+  renderPlanGrid();
+}
+function renderPlanGrid(){
+  const g=document.getElementById('progGrid');if(!g||!S.started)return;
+  const [y,m,dd]=S.started.split('-').map(Number);
+  const start=new Date(y,m-1,dd);
+  const pd=programDay();
+  let h='';
+  for(let i=0;i<21;i++){
+    const dt=new Date(start);dt.setDate(start.getDate()+i);
+    const key=todayKey(dt);
+    const done=dayComplete(key);
+    const isToday=(i+1)===pd;
+    const cls=done?'fast':'';
+    h+=`<div class="d ${cls} ${isToday?'today':''}"><b>${i+1}</b>${done?'<small>✓ clean</small>':(i+1<pd?'<small>—</small>':'<small>·</small>')}</div>`;
+  }
+  g.innerHTML=h;
+}
+
+/* ---------- nav ---------- */
+function go(v){
+  document.querySelectorAll('.viewpage').forEach(p=>p.classList.add('hide'));
+  const el=document.getElementById('view-'+v);el.classList.remove('hide');el.classList.add('fade');
+  setTimeout(()=>el.classList.remove('fade'),400);
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  window.scrollTo(0,0);
+}
+
+/* ---------- breather ---------- */
+function toggleBreath(){
+  const btn=document.getElementById('breathBtn');
+  if(breathOn){stopBreath();return}
+  breathOn=true;btn.textContent='Stop';
+  let round=0;const total=5;
+  const orb=document.getElementById('orb'),txt=document.getElementById('orbTxt'),cnt=document.getElementById('breathCount');
+  function grow1(){txt.textContent='Inhale';orb.style.transform='scale(1.35)';cnt.textContent='Round '+(round+1)+' of '+total;
+    breathTimer=setTimeout(top,2600)}
+  function top(){txt.textContent='Top up';orb.style.transform='scale(1.55)';breathTimer=setTimeout(exhale,1000)}
+  function exhale(){txt.textContent='Exhale slowly';orb.style.transform='scale(0.85)';breathTimer=setTimeout(next,6000)}
+  function next(){round++;if(round>=total){finishBreath();return}grow1()}
+  grow1();
+}
+function finishBreath(){
+  const orb=document.getElementById('orb');
+  document.getElementById('orbTxt').textContent='Calm ✓';orb.style.transform='scale(1)';
+  document.getElementById('breathCount').textContent='Nice. Notice how you feel.';
+  stopBreath(true);
+}
+function stopBreath(done){
+  clearTimeout(breathTimer);breathOn=false;
+  document.getElementById('breathBtn').textContent=done?'Again':'Start breathing';
+  if(!done){document.getElementById('orbTxt').textContent='Tap start';
+    document.getElementById('orb').style.transform='scale(1)';
+    document.getElementById('breathCount').textContent='5 rounds';}
+}
+
+function resetAll(){
+  if(confirm('Reset the whole program? This clears all your logged days.')){
+    localStorage.removeItem(K);location.reload();
+  }
+}
+
+/* ---------- boot ---------- */
+if(S.started){render();setInterval(()=>{renderNow();renderTimeline();
+  document.getElementById('clock').textContent=DAYNAMES[new Date().getDay()]+' · '+fmt(nowMin());},30000)}
+</script>
+</body>
+</html>
